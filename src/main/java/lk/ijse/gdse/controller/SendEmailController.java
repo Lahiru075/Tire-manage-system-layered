@@ -9,9 +9,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import lk.ijse.gdse.dao.CustomerDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.CustomerBo;
+import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
 import lk.ijse.gdse.dto.CustomerDto;
-import lk.ijse.gdse.dao.CustomerDaoImpl;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -42,6 +43,9 @@ public class SendEmailController implements Initializable {
 
     @FXML
     private TextField txtSubject;
+
+
+    CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
 
     @FXML
     void butSendOnAction(ActionEvent event) throws MessagingException {
@@ -102,8 +106,7 @@ public class SendEmailController implements Initializable {
     }
 
     private void CustomerIds() throws SQLException {
-        CustomerDao customerDao = new CustomerDaoImpl();
-        ArrayList<String> customerIds = customerDao.getAllCustIds();
+        ArrayList<String> customerIds = customerBo.getAllCustIds();
 
         ObservableList<String> observableList = FXCollections.observableArrayList();
         for (String id : customerIds) {
@@ -117,8 +120,7 @@ public class SendEmailController implements Initializable {
         String id = cmbCustId.getValue();
 
         try {
-            CustomerDao customerDao = new CustomerDaoImpl();
-            CustomerDto customerDto = customerDao.getCustomer(id);
+            CustomerDto customerDto = customerBo.getCustomer(id);
             labCustName.setText(customerDto.getCusName());
             labEmail.setText(customerDto.getEmail());
         } catch (SQLException e) {

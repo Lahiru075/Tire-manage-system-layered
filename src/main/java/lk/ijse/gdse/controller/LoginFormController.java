@@ -12,9 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.gdse.dao.LoginDao;
+import lk.ijse.gdse.dao.costom.LoginDao;
 import lk.ijse.gdse.dto.UserDto;
-import lk.ijse.gdse.dao.LoginDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.LoginDaoImpl;
 
 import java.io.IOException;
 import java.sql.SQLException;

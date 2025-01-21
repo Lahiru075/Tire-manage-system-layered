@@ -8,10 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.dao.UserDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.UserBo;
+import lk.ijse.gdse.bo.custom.impl.UserBoImpl;
+import lk.ijse.gdse.dao.costom.UserDao;
 import lk.ijse.gdse.dto.Tm.UserTm;
 import lk.ijse.gdse.dto.UserDto;
-import lk.ijse.gdse.dao.UserDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.UserDaoImpl;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -61,6 +64,8 @@ public class UserFormController implements Initializable {
     @FXML
     private TextField txtUsername;
 
+    UserBo userBo = (UserBo) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
+
     @FXML
     void OnActionbutGenearateReport(ActionEvent event) {
 
@@ -70,8 +75,7 @@ public class UserFormController implements Initializable {
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
         String userId = labUserId.getText();
 
-        UserDao userDao = new UserDaoImpl();
-        boolean isResult = userDao.deleteUser(userId);
+        boolean isResult = userBo.delete(userId);
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "User Delete Successful").showAndWait();
@@ -109,8 +113,7 @@ public class UserFormController implements Initializable {
             return;
         }
 
-        UserDao userDao = new UserDaoImpl();
-        boolean isResult = userDao.seveUser(new UserDto(userId, role, password, username));
+        boolean isResult = userBo.save(new UserDto(userId, role, password, username));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "User Save Successful").showAndWait();
@@ -148,8 +151,7 @@ public class UserFormController implements Initializable {
             return;
         }
 
-        UserDao userDao = new UserDaoImpl();
-        boolean isResult = userDao.updateUser(new UserDto(userId, role, password, username));
+        boolean isResult = userBo.update(new UserDto(userId, role, password, username));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "User Update Successful").showAndWait();
@@ -192,8 +194,7 @@ public class UserFormController implements Initializable {
     }
 
     void loadAllUsers() throws SQLException {
-        UserDao userDao = new UserDaoImpl();
-        ArrayList<UserDto> allUsers = userDao.getAllUsers();
+        ArrayList<UserDto> allUsers = userBo.getAll();
 
         ObservableList<UserTm> observableList = FXCollections.observableArrayList();
 

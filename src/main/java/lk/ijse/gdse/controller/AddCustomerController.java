@@ -7,9 +7,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import lk.ijse.gdse.dao.CustomerDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.CustomerBo;
+import lk.ijse.gdse.bo.custom.UserBo;
+import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
+import lk.ijse.gdse.bo.custom.impl.UserBoImpl;
+import lk.ijse.gdse.dao.costom.CustomerDao;
 import lk.ijse.gdse.dto.CustomerDto;
-import lk.ijse.gdse.dao.CustomerDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.CustomerDaoImpl;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -37,6 +42,8 @@ public class AddCustomerController implements Initializable {
     @FXML
     private TextField txtName;
 
+    CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+
     @FXML
     void butSaveOnAction(ActionEvent event) throws SQLException {
         String customerId = lblCustomerId.getText();
@@ -50,8 +57,7 @@ public class AddCustomerController implements Initializable {
             return;
         }
 
-        CustomerDao customerDao = new CustomerDaoImpl();
-        boolean isResult = customerDao.saveCustomer(new CustomerDto(customerId, custName, email, contact, address));
+        boolean isResult = customerBo.save(new CustomerDto(customerId, custName, email, contact, address));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Customer Save Successful").showAndWait();
@@ -63,8 +69,7 @@ public class AddCustomerController implements Initializable {
     }
 
     void getNextCustomerId() throws SQLException {
-        CustomerDao customerDao = new CustomerDaoImpl();
-        String customerId = customerDao.getNextCustomerId();
+        String customerId = customerBo.getNextId();
         lblCustomerId.setText(customerId);
     }
 

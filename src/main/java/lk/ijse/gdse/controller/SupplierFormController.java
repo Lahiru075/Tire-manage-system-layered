@@ -8,10 +8,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.dao.SupplierDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.SupplierBo;
+import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.costom.SupplierDao;
 import lk.ijse.gdse.dto.SupplierDto;
 import lk.ijse.gdse.dto.Tm.SupplierTm;
-import lk.ijse.gdse.dao.SupplierDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.SupplierDaoImpl;
+import lk.ijse.gdse.entity.Supplier;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -67,6 +71,8 @@ public class SupplierFormController implements Initializable {
     @FXML
     private TextField txtName;
 
+    SupplierBo supplierBo = (SupplierBo) BOFactory.getInstance().getBO(BOFactory.BOType.SUPPLIER);
+
     @FXML
     void OnActionbutGenearateReport(ActionEvent event) {
 
@@ -74,8 +80,7 @@ public class SupplierFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
-        SupplierDao supplierDao = new SupplierDaoImpl();
-        boolean isResult = supplierDao.deleteSupplier(labSupplier.getText());
+        boolean isResult = supplierBo.delete(labSupplier.getText());
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Supplier Delete Successful").showAndWait();
@@ -125,8 +130,7 @@ public class SupplierFormController implements Initializable {
             return;
         }
 
-        SupplierDao supplierDao = new SupplierDaoImpl();
-        boolean isResult = supplierDao.seveSupplier(new SupplierDto(supId, name, email, contact, address));
+        boolean isResult = supplierBo.save(new SupplierDto(supId, name, email, contact, address));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Supplier Save Successful").showAndWait();
@@ -176,8 +180,7 @@ public class SupplierFormController implements Initializable {
             return;
         }
 
-        SupplierDao supplierDao = new SupplierDaoImpl();
-        boolean isResult = supplierDao.updateSupplier(new SupplierDto(supId, name, email, contact, address));
+        boolean isResult = supplierBo.update(new SupplierDto(supId, name, email, contact, address));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Supplier Update Successful").showAndWait();
@@ -210,8 +213,7 @@ public class SupplierFormController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
-        SupplierDao supplierDao = new SupplierDaoImpl();
-        ArrayList<SupplierDto> supplierDTOS = supplierDao.getAllSuppliers();
+        ArrayList<SupplierDto> supplierDTOS = supplierBo.getAll();
 
         ObservableList<SupplierTm> supplierTms = FXCollections.observableArrayList();
 
@@ -244,8 +246,7 @@ public class SupplierFormController implements Initializable {
     }
 
     private void getNextSupplierId() throws SQLException {
-        SupplierDao supplierDao = new SupplierDaoImpl();
-        String supplierId = supplierDao.getNextSupplierId();
+        String supplierId = supplierBo.getNextId();
         labSupplier.setText(supplierId);
     }
 

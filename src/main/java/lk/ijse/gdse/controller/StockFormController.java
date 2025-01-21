@@ -8,12 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.dao.PlaceOrderDao;
-import lk.ijse.gdse.dao.StockDao;
+import lk.ijse.gdse.dao.costom.PlaceOrderDao;
+import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dto.StockDto;
 import lk.ijse.gdse.dto.Tm.StockTm;
-import lk.ijse.gdse.dao.PlaceOrderDaoImpl;
-import lk.ijse.gdse.dao.StockDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.PlaceOrderDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
 
 import java.net.URL;
 import java.sql.SQLException;

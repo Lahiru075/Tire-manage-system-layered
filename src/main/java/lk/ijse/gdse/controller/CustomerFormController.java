@@ -8,10 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.dao.CustomerDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.CustomerBo;
+import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
 import lk.ijse.gdse.dto.CustomerDto;
 import lk.ijse.gdse.dto.Tm.CustomerTm;
-import lk.ijse.gdse.dao.CustomerDaoImpl;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -65,6 +66,8 @@ public class CustomerFormController implements Initializable {
     @FXML
     private TextField txtName;
 
+    CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+
     @FXML
     void onMouseClicked(MouseEvent event) {
         CustomerTm customerTm  = tbCustomer.getSelectionModel().getSelectedItem();
@@ -83,8 +86,7 @@ public class CustomerFormController implements Initializable {
     @FXML
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
 
-        CustomerDao customerDao = new CustomerDaoImpl();
-        boolean result = customerDao.deleteCustomer(lblCustomerId.getText());
+        boolean result = customerBo.delete(lblCustomerId.getText());
 
         if (result) {
             new Alert(Alert.AlertType.INFORMATION, "Customer Delete Successful").show();
@@ -134,8 +136,7 @@ public class CustomerFormController implements Initializable {
             return;
         }
 
-        CustomerDao customerDao = new CustomerDaoImpl();
-        boolean isResult = customerDao.saveCustomer(new CustomerDto(customerId, customerName, email, contact, address));
+        boolean isResult = customerBo.save(new CustomerDto(customerId, customerName, email, contact, address));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Customer Save Successful").show();
@@ -185,8 +186,7 @@ public class CustomerFormController implements Initializable {
             return;
         }
 
-        CustomerDao customerDao = new CustomerDaoImpl();
-        boolean result = customerDao.updateCustomer(new CustomerDto(customerId, customerName, email, contact, address));
+        boolean result = customerBo.update(new CustomerDto(customerId, customerName, email, contact, address));
 
         if (result) {
             new Alert(Alert.AlertType.INFORMATION, "Customer Update Successful").show();
@@ -202,8 +202,7 @@ public class CustomerFormController implements Initializable {
     }
 
     void getNextCustomerId() throws SQLException {
-        CustomerDao customerDao = new CustomerDaoImpl();
-        String customerId = customerDao.getNextCustomerId();
+        String customerId = customerBo.getNextId();
         lblCustomerId.setText(customerId);
     }
 
@@ -224,8 +223,7 @@ public class CustomerFormController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
-        CustomerDao customerDao = new CustomerDaoImpl();
-        ArrayList<CustomerDto> customerDTOS = customerDao.getAllCustomers();
+        ArrayList<CustomerDto> customerDTOS = customerBo.getAll();
 
         ObservableList<CustomerTm> customerTms = FXCollections.observableArrayList();
 

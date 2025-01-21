@@ -14,10 +14,15 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.CustomerBo;
+import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
+import lk.ijse.gdse.dao.costom.EmployeeDao;
+import lk.ijse.gdse.dao.costom.PlaceOrderDao;
+import lk.ijse.gdse.dao.costom.impl.*;
 import lk.ijse.gdse.dto.*;
 import lk.ijse.gdse.dto.Tm.CartTm;
 import lk.ijse.gdse.dto.Tm.PlaceOrderTm;
-import lk.ijse.gdse.dao.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -110,6 +115,8 @@ public class PlaceOrderController implements Initializable {
     @FXML
     private Label labQty;
 
+    CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+
     public Label getDate(){
         return labDate;
     }
@@ -163,8 +170,7 @@ public class PlaceOrderController implements Initializable {
     @FXML
     void butCheckOnAction(ActionEvent event) throws SQLException, IOException {
         String contact = textContact.getText();
-        CustomerDao customerDao = new CustomerDaoImpl();
-        boolean check = customerDao.checkCustomer(contact);
+        boolean check = customerBo.checkCustomer(contact);
 
         if (check) {
             new Alert(Alert.AlertType.INFORMATION, "Customer Exist").showAndWait();
@@ -178,7 +184,7 @@ public class PlaceOrderController implements Initializable {
             stage.setResizable(false);
             stage.showAndWait();
 
-            String contact1 = customerDao.getCustomerContactNo();
+            String contact1 = customerBo.getCustomerContactNo();
             textContact.setText(contact1);
         }
     }
@@ -332,8 +338,7 @@ public class PlaceOrderController implements Initializable {
 
         ordersDto.setOrderId(labOrderId.getText());
         ordersDto.setDate(labDate.getText());
-        CustomerDao customerDao = new CustomerDaoImpl();
-        String custId = customerDao.getCustId(textContact.getText());
+        String custId = customerBo.getCustId(textContact.getText());
         ordersDto.setCustId(custId);
 
         EmployeeDao employeeDao = new EmployeeDaoImpl();

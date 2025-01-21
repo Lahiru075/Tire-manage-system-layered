@@ -12,9 +12,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.gdse.dao.UserDao;
+import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.costom.UserDao;
 import lk.ijse.gdse.dto.UserDto;
-import lk.ijse.gdse.dao.UserDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.UserDaoImpl;
+import lk.ijse.gdse.entity.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +50,8 @@ public class SignUpFormController implements Initializable {
     @FXML
     private ComboBox<String> cmbRole;
 
+    UserDao userDao = (UserDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
+
     @FXML
     void butSignInOnAction(ActionEvent event) throws SQLException, IOException {
         String usId = labUserId.getText();
@@ -80,8 +84,7 @@ public class SignUpFormController implements Initializable {
         String adminPassword = "password@1234";
 
         if (txtAdminUserName.getText().equals(adminUsername) && txtAdminPassword.getText().equals(adminPassword)) {
-            UserDao userDao = new UserDaoImpl();
-            boolean result = userDao.seveUser(new UserDto(usId, role, password, username));
+            boolean result = userDao.save(new User(usId, role, password, username));
 
             if (!result) {
                 new Alert(Alert.AlertType.ERROR, "Unsuccessful Sign in..!").showAndWait();

@@ -7,12 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.gdse.dao.OrderDao;
-import lk.ijse.gdse.dao.OrderViewDao;
+import lk.ijse.gdse.dao.costom.OrderViewDao;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.OrderViewDto;
 import lk.ijse.gdse.dto.Tm.OrderViewTm;
-import lk.ijse.gdse.dao.OrderViewDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.OrderViewDaoImpl;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 

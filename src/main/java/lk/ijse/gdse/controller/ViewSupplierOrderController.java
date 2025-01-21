@@ -8,10 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.dao.SupplierOrderDao;
+import lk.ijse.gdse.dao.costom.SupplierOrderDao;
 import lk.ijse.gdse.dto.SupplierOrderDto;
 import lk.ijse.gdse.dto.Tm.SupplierOrderTm;
-import lk.ijse.gdse.dao.SupplierOrderDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.SupplierOrderDaoImpl;
 
 import java.net.URL;
 import java.sql.Date;

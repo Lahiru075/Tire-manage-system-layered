@@ -13,7 +13,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lk.ijse.gdse.dao.*;
+import lk.ijse.gdse.dao.costom.EmployeeDao;
+import lk.ijse.gdse.dao.costom.StockDao;
+import lk.ijse.gdse.dao.costom.SupplierDao;
+import lk.ijse.gdse.dao.costom.SupplierOrderDao;
+import lk.ijse.gdse.dao.costom.impl.EmployeeDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.SupplierDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.SupplierOrderDaoImpl;
 import lk.ijse.gdse.dto.SupplierOrderDto;
 import lk.ijse.gdse.dto.Tm.SupplierOrderTm;
 
