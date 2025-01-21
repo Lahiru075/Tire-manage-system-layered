@@ -1,13 +1,17 @@
-package lk.ijse.gdse.dao.costom;
+package lk.ijse.gdse.bo.custom;
 
 import lk.ijse.gdse.dto.StockDto;
 import lk.ijse.gdse.dto.TireOrderDto;
-import lk.ijse.gdse.entity.Stock;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface StockDao extends CrudDao<Stock>{
+public interface StockBo extends SuperBo{
+    ArrayList<StockDto> getAll() throws SQLException;
+    boolean save(StockDto stockDto) throws SQLException;
+    boolean update(StockDto stockDto) throws SQLException;
+    boolean delete(String text) throws SQLException;
+    String getNextId() throws SQLException;
     boolean reduceQty(TireOrderDto tireOrderDto) throws SQLException;
     ArrayList<String> getAllStockId() throws SQLException;
     boolean checkIsExists(String description) throws SQLException;

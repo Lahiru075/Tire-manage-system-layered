@@ -2,6 +2,7 @@ package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
 import lk.ijse.gdse.dto.PlaceOrderDto;
+import lk.ijse.gdse.entity.PlaceOrder;
 import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PlaceOrderDaoImpl implements PlaceOrderDao {
-    public String getNextTireId() throws SQLException {
+    public String getNextId() throws SQLException {
         ResultSet rst = CrudUtil.execute("select tireId from tire order by tireId desc limit 1");
 
         if (rst.next()) {
@@ -22,25 +23,25 @@ public class PlaceOrderDaoImpl implements PlaceOrderDao {
         return "T001";
     }
 
-    public ArrayList<PlaceOrderDto> getAllTires() throws SQLException {
+    public ArrayList<PlaceOrder> getAll() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from tire");
 
-        ArrayList<PlaceOrderDto> placeOrderDTOS = new ArrayList<>();
+        ArrayList<PlaceOrder> placeOrders = new ArrayList<>();
 
         while (rst.next()){
-            PlaceOrderDto placeOrderDto = new PlaceOrderDto();
+            PlaceOrder placeOrder = new PlaceOrder();
 
-            placeOrderDto.setTireId(rst.getString(1));
-            placeOrderDto.setTireBrand(rst.getString(2));
-            placeOrderDto.setTireModel(rst.getString(3));
-            placeOrderDto.setTireSize(rst.getString(4));
-            placeOrderDto.setYear(Integer.parseInt(rst.getString(5)));
-            placeOrderDto.setTirePrice(Double.parseDouble(rst.getString(6)));
+            placeOrder.setTireId(rst.getString(1));
+            placeOrder.setTireBrand(rst.getString(2));
+            placeOrder.setTireModel(rst.getString(3));
+            placeOrder.setTireSize(rst.getString(4));
+            placeOrder.setYear(Integer.parseInt(rst.getString(5)));
+            placeOrder.setTirePrice(Double.parseDouble(rst.getString(6)));
 
 
-            placeOrderDTOS.add(placeOrderDto);
+            placeOrders.add(placeOrder);
         }
-        return placeOrderDTOS;
+        return placeOrders;
     }
 
     public int getQty(String tireId) throws SQLException {
@@ -53,40 +54,40 @@ public class PlaceOrderDaoImpl implements PlaceOrderDao {
         return qty;
     }
 
-    public PlaceOrderDto getTire(String tireId) throws SQLException {
+    public PlaceOrder getTire(String tireId) throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from tire where tireId = ?",tireId);
 
-        PlaceOrderDto placeOrderDto = new PlaceOrderDto();
+        PlaceOrder placeOrder = new PlaceOrder();
 
         if(rst.next()){
-            placeOrderDto.setTireId(rst.getString(1));
-            placeOrderDto.setTireBrand(rst.getString(2));
-            placeOrderDto.setTireModel(rst.getString(3));
-            placeOrderDto.setTireSize(rst.getString(4));
-            placeOrderDto.setYear(Integer.parseInt(rst.getString(5)));
-            placeOrderDto.setTirePrice(Double.parseDouble(rst.getString(6)));
+            placeOrder.setTireId(rst.getString(1));
+            placeOrder.setTireBrand(rst.getString(2));
+            placeOrder.setTireModel(rst.getString(3));
+            placeOrder.setTireSize(rst.getString(4));
+            placeOrder.setYear(Integer.parseInt(rst.getString(5)));
+            placeOrder.setTirePrice(Double.parseDouble(rst.getString(6)));
         }
-        return placeOrderDto;
+        return placeOrder;
     }
 
-    public ArrayList<PlaceOrderDto> getTireByBrand(String brand) throws SQLException {
+    public ArrayList<PlaceOrder> getTireByBrand(String brand) throws SQLException {
         ResultSet rst = CrudUtil.execute("SELECT * FROM tire WHERE brand LIKE ?", "%" + brand + "%");
 
-        ArrayList<PlaceOrderDto> placeOrderDTOS = new ArrayList<>();
+        ArrayList<PlaceOrder> placeOrders = new ArrayList<>();
 
         while (rst.next()){
-            PlaceOrderDto placeOrderDto = new PlaceOrderDto();
+            PlaceOrder placeOrder = new PlaceOrder();
 
-            placeOrderDto.setTireId(rst.getString(1));
-            placeOrderDto.setTireBrand(rst.getString(2));
-            placeOrderDto.setTireModel(rst.getString(3));
-            placeOrderDto.setTireSize(rst.getString(4));
-            placeOrderDto.setYear(Integer.parseInt(rst.getString(5)));
-            placeOrderDto.setTirePrice(Double.parseDouble(rst.getString(6)));
+            placeOrder.setTireId(rst.getString(1));
+            placeOrder.setTireBrand(rst.getString(2));
+            placeOrder.setTireModel(rst.getString(3));
+            placeOrder.setTireSize(rst.getString(4));
+            placeOrder.setYear(Integer.parseInt(rst.getString(5)));
+            placeOrder.setTirePrice(Double.parseDouble(rst.getString(6)));
 
-            placeOrderDTOS.add(placeOrderDto);
+            placeOrders.add(placeOrder);
         }
-        return placeOrderDTOS;
+        return placeOrders;
     }
 
     public String checkIsExists(String brand, String model, String size) throws SQLException {
@@ -103,29 +104,29 @@ public class PlaceOrderDaoImpl implements PlaceOrderDao {
 
     }
 
-    public boolean saveTire(PlaceOrderDto placeOrderDto) throws SQLException {
+    public boolean save(PlaceOrder placeOrder) throws SQLException {
         return CrudUtil.execute("INSERT INTO tire VALUES (?,?,?,?,?,?)",
-                placeOrderDto.getTireId(),
-                placeOrderDto.getTireBrand(),
-                placeOrderDto.getTireModel(),
-                placeOrderDto.getTireSize(),
-                placeOrderDto.getYear(),
-                placeOrderDto.getTirePrice()
+                placeOrder.getTireId(),
+                placeOrder.getTireBrand(),
+                placeOrder.getTireModel(),
+                placeOrder.getTireSize(),
+                placeOrder.getYear(),
+                placeOrder.getTirePrice()
         );
     }
 
-    public boolean deleteTire(String tireId) throws SQLException {
+    public boolean delete(String tireId) throws SQLException {
         return CrudUtil.execute("delete from tire where tireId = ?", tireId);
     }
 
-    public boolean updateTire(PlaceOrderDto placeOrderDto) throws SQLException {
+    public boolean update(PlaceOrder placeOrder) throws SQLException {
         return CrudUtil.execute("update tire set brand = ?, model = ?, size = ?, year = ?, price = ? where tireId = ?",
-                placeOrderDto.getTireBrand(),
-                placeOrderDto.getTireModel(),
-                placeOrderDto.getTireSize(),
-                placeOrderDto.getYear(),
-                placeOrderDto.getTirePrice(),
-                placeOrderDto.getTireId()
+                placeOrder.getTireBrand(),
+                placeOrder.getTireModel(),
+                placeOrder.getTireSize(),
+                placeOrder.getYear(),
+                placeOrder.getTirePrice(),
+                placeOrder.getTireId()
         );
     }
 

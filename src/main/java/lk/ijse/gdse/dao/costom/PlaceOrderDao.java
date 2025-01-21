@@ -1,19 +1,15 @@
 package lk.ijse.gdse.dao.costom;
 
 import lk.ijse.gdse.dto.PlaceOrderDto;
+import lk.ijse.gdse.entity.PlaceOrder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface PlaceOrderDao {
-    String getNextTireId() throws SQLException;
-    ArrayList<PlaceOrderDto> getAllTires() throws SQLException;
+public interface PlaceOrderDao extends CrudDao<PlaceOrder>{
     int getQty(String tireId) throws SQLException;
-    PlaceOrderDto getTire(String tireId) throws SQLException;
-    ArrayList<PlaceOrderDto> getTireByBrand(String brand) throws SQLException;
+    PlaceOrder getTire(String tireId) throws SQLException;
+    ArrayList<PlaceOrder> getTireByBrand(String brand) throws SQLException;
     String checkIsExists(String brand, String model, String size) throws SQLException;
-    boolean saveTire(PlaceOrderDto placeOrderDto) throws SQLException;
-    boolean deleteTire(String tireId) throws SQLException;
-    boolean updateTire(PlaceOrderDto placeOrderDto) throws SQLException;
     ArrayList<String> getAllTireId() throws SQLException;
 }

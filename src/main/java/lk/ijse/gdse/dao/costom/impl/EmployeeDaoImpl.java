@@ -2,6 +2,7 @@ package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.EmployeeDao;
 import lk.ijse.gdse.dto.EmployeeDto;
+import lk.ijse.gdse.entity.Employee;
 import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -13,12 +14,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public ArrayList<String> getAllEmployeesContact() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from employee");
 
-        ArrayList<String> employeeDtos = new ArrayList<>();
+        ArrayList<String> employees = new ArrayList<>();
 
         while (rst.next()) {
-            employeeDtos.add(rst.getString(6));
+            employees.add(rst.getString(6));
         }
-        return employeeDtos;
+        return employees;
     }
 
 
@@ -31,10 +32,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return null;
     }
 
-    public String getNextEmployeeId() throws SQLException {
+    public String getNextId() throws SQLException {
         ResultSet rst = CrudUtil.execute("select empId from employee order by empId desc limit 1");
 
-        if (rst.next()){
+        if (rst.next()) {
             String lastId = rst.getString(1);
             String substring = lastId.substring(1);
             int i = Integer.parseInt(substring);
@@ -44,13 +45,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return "E001";
     }
 
-    public ArrayList<EmployeeDto> getAllEmployees() throws SQLException {
+    public ArrayList<Employee> getAll() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from employee");
 
-        ArrayList<EmployeeDto> employeeDTOS = new ArrayList<>();
+        ArrayList<Employee> employees = new ArrayList<>();
 
         while (rst.next()) {
-            EmployeeDto employeeDto = new EmployeeDto(
+            Employee employee = new Employee(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -59,46 +60,46 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     rst.getString(6),
                     rst.getDouble(7)
             );
-            employeeDTOS.add(employeeDto);
+            employees.add(employee);
         }
-        return employeeDTOS;
+        return employees;
     }
 
-    public boolean seveEmployee(EmployeeDto employeeDto) throws SQLException {
+    public boolean save(Employee employee) throws SQLException {
         return CrudUtil.execute("insert into employee values (?,?,?,?,?,?,?)",
-                employeeDto.getEmpId(),
-                employeeDto.getName(),
-                employeeDto.getRole(),
-                employeeDto.getEmail(),
-                employeeDto.getAddress(),
-                employeeDto.getContact(),
-                employeeDto.getSalary()
+                employee.getEmpId(),
+                employee.getName(),
+                employee.getRole(),
+                employee.getEmail(),
+                employee.getAddress(),
+                employee.getContact(),
+                employee.getSalary()
         );
     }
 
-    public boolean deleteEmployee(String empId) throws SQLException {
+    public boolean delete(String empId) throws SQLException {
         return CrudUtil.execute("delete from employee where empId=?", empId);
     }
 
-    public boolean updateEmployee(EmployeeDto employeeDto) throws SQLException {
+    public boolean update(Employee employee) throws SQLException {
         return CrudUtil.execute("update employee set name=?, role=?, email=?, address=?, coNo=?, salary=? where empId=?",
-                employeeDto.getName(),
-                employeeDto.getRole(),
-                employeeDto.getEmail(),
-                employeeDto.getAddress(),
-                employeeDto.getContact(),
-                employeeDto.getSalary(),
-                employeeDto.getEmpId()
+                employee.getName(),
+                employee.getRole(),
+                employee.getEmail(),
+                employee.getAddress(),
+                employee.getContact(),
+                employee.getSalary(),
+                employee.getEmpId()
         );
     }
 
     public ArrayList<String> getAllEmployeesId() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from employee");
-        ArrayList<String> employeeDtos = new ArrayList<>();
+        ArrayList<String> employees = new ArrayList<>();
 
         while (rst.next()) {
-            employeeDtos.add(rst.getString(1));
+            employees.add(rst.getString(1));
         }
-        return employeeDtos;
+        return employees;
     }
 }

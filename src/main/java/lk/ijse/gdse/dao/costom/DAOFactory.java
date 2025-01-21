@@ -1,8 +1,6 @@
 package lk.ijse.gdse.dao.costom;
 
-import lk.ijse.gdse.dao.costom.impl.CustomerDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.SupplierDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.UserDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.*;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -17,7 +15,7 @@ public class DAOFactory {
     }
 
     public enum DAOType{
-        CUSTOMER,USER,SUPPLIER
+        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER
     }
 
     public SuperDao getDAO(DAOType type){
@@ -28,6 +26,12 @@ public class DAOFactory {
                 return new UserDaoImpl();
             case SUPPLIER:
                 return new SupplierDaoImpl();
+            case EMPLOYEE:
+                return new EmployeeDaoImpl();
+            case STOCK:
+                return new StockDaoImpl();
+            case PLACE_ORDER:
+                return new PlaceOrderDaoImpl();
             default:
                 return null;
         }

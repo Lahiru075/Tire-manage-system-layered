@@ -3,6 +3,7 @@ package lk.ijse.gdse.dao.costom.impl;
 import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dto.StockDto;
 import lk.ijse.gdse.dto.TireOrderDto;
+import lk.ijse.gdse.entity.Stock;
 import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -11,13 +12,13 @@ import java.util.ArrayList;
 
 public class StockDaoImpl implements StockDao {
 
-    public ArrayList<StockDto> getAllStock() throws SQLException {
+    public ArrayList<Stock> getAll() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from stock");
 
-        ArrayList<StockDto> stockDtos = new ArrayList<>();
+        ArrayList<Stock> stocks = new ArrayList<>();
 
         while (rst.next()) {
-            StockDto stockDto = new StockDto(
+            Stock stock = new Stock(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -25,38 +26,38 @@ public class StockDaoImpl implements StockDao {
                     rst.getInt(5),
                     rst.getString(6)
             );
-            stockDtos.add(stockDto);
+            stocks.add(stock);
         }
-        return stockDtos;
+        return stocks;
     }
 
-    public boolean isSaved(StockDto stockDto) throws SQLException {
+    public boolean save(Stock stock) throws SQLException {
         return CrudUtil.execute("insert into stock values(?,?,?,?,?,?)",
-                stockDto.getStockId(),
-                stockDto.getDescription(),
-                stockDto.getLast_update(),
-                stockDto.getRecode_level(),
-                stockDto.getQty(),
-                stockDto.getTireId()
+                stock.getStockId(),
+                stock.getDescription(),
+                stock.getLast_update(),
+                stock.getRecode_level(),
+                stock.getQty(),
+                stock.getTireId()
         );
     }
 
-    public boolean isUpdate(StockDto stockDto) throws SQLException {
+    public boolean update(Stock stock) throws SQLException {
         return CrudUtil.execute("update stock set description = ?, last_update = ?, recode_level = ?, qty = ?, tireId = ? where stockId = ?",
-                stockDto.getDescription(),
-                stockDto.getLast_update(),
-                stockDto.getRecode_level(),
-                stockDto.getQty(),
-                stockDto.getTireId(),
-                stockDto.getStockId()
+                stock.getDescription(),
+                stock.getLast_update(),
+                stock.getRecode_level(),
+                stock.getQty(),
+                stock.getTireId(),
+                stock.getStockId()
         );
     }
 
-    public boolean deleteStock(String text) throws SQLException {
+    public boolean delete(String text) throws SQLException {
         return CrudUtil.execute("delete from stock where stockId = ?", text);
     }
 
-    public String getNextStockId() throws SQLException {
+    public String getNextId() throws SQLException {
         ResultSet rst = CrudUtil.execute("select stockId from stock order by stockId desc limit 1");
 
         if (rst.next()) {

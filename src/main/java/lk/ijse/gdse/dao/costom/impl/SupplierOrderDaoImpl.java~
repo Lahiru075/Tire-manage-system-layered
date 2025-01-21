@@ -1,8 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import javafx.scene.control.Alert;
-import lk.ijse.gdse.bo.custom.BOFactory;
-import lk.ijse.gdse.bo.custom.StockBo;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
 import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.SupplierOrderDao;
@@ -21,8 +19,6 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
 
 //    StockDaoImpl stockDao = new StockDaoImpl();
 //    PlaceOrderDaoImpl placeOrderDao = new PlaceOrderDaoImpl();
-
-    StockBo stockBo = (StockBo) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
 
     public String getNextOrderId() throws SQLException {
         ResultSet rst = CrudUtil.execute("select supOrderId from supplier_order order by supOrderId desc limit 1");
@@ -151,7 +147,7 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
                     String model = supplierOrderDto.getTireModel();
                     String size = supplierOrderDto.getOrderSize();
 
-                    String stockId = stockBo.getNextId();
+                    String stockId = stockDao.getNextStockId();
                     PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
                     String tireId = placeOrderDao.checkIsExists(brand, model, size);
 
@@ -164,7 +160,7 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
                         stockDto.setQty(supplierOrderDto.getQty());
                         stockDto.setTireId(tireId);
 
-                        boolean isStockSave = stockBo.save(stockDto);
+                        boolean isStockSave = stockDao.isSaved(stockDto);
 
                         if (isStockSave){
                             connection.commit();

@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.PlaceOrderBo;
+import lk.ijse.gdse.bo.custom.impl.PlaceOrderBoImpl;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
 import lk.ijse.gdse.dto.PlaceOrderDto;
 import lk.ijse.gdse.dto.Tm.PlaceOrderTm;
@@ -73,7 +76,7 @@ public class TiresFormController implements Initializable {
     @FXML
     private TextField txtYear;
 
-
+    PlaceOrderBo placeOrderBo = (PlaceOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.PLACE_ORDER);
 
     @FXML
     void OnActionbutGenearateReport(ActionEvent event) {
@@ -84,8 +87,7 @@ public class TiresFormController implements Initializable {
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
         String tireId = lbTireId.getText();
 
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        boolean isDeleted = placeOrderDao.deleteTire(tireId);
+        boolean isDeleted = placeOrderBo.delete(tireId);
 
         if (isDeleted) {
             new Alert(Alert.AlertType.INFORMATION, "Tire Delete Successful").showAndWait();
@@ -154,8 +156,7 @@ public class TiresFormController implements Initializable {
 
         PlaceOrderDto placeOrderDto = new PlaceOrderDto(tireId, brand, model, size, year, price);
 
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        boolean isSaved = placeOrderDao.saveTire(placeOrderDto);
+        boolean isSaved = placeOrderBo.save(placeOrderDto);
 
         if (isSaved) {
             new Alert(Alert.AlertType.INFORMATION, "Tire Save Successful").showAndWait();
@@ -221,8 +222,7 @@ public class TiresFormController implements Initializable {
             return;
         }
 
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        boolean isUpdate = placeOrderDao.updateTire(new PlaceOrderDto(tireId, brand, model, size, year, price));
+        boolean isUpdate = placeOrderBo.update(new PlaceOrderDto(tireId, brand, model, size, year, price));
 
         if (isUpdate) {
             new Alert(Alert.AlertType.INFORMATION, "Tire Update Successful").showAndWait();
@@ -255,8 +255,7 @@ public class TiresFormController implements Initializable {
     }
 
     private void loadAllTires() throws SQLException {
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        ArrayList<PlaceOrderDto> allTires = placeOrderDao.getAllTires();
+        ArrayList<PlaceOrderDto> allTires = placeOrderBo.getAll();
 
         ObservableList<PlaceOrderTm> placeOrderTms = FXCollections.observableArrayList();
 
@@ -275,8 +274,7 @@ public class TiresFormController implements Initializable {
     }
 
     private void getNextTireId() throws SQLException {
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        String nextTireId = placeOrderDao.getNextTireId();
+        String nextTireId = placeOrderBo.getNextId();
         lbTireId.setText(nextTireId);
     }
 

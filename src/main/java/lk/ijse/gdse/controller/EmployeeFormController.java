@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.EmployeeBo;
+import lk.ijse.gdse.bo.custom.impl.EmployeeBoImpl;
 import lk.ijse.gdse.dao.costom.EmployeeDao;
 import lk.ijse.gdse.dto.EmployeeDto;
 import lk.ijse.gdse.dto.Tm.EmployeeTm;
@@ -77,6 +80,8 @@ public class EmployeeFormController implements Initializable {
     @FXML
     private TextField txtSalary;
 
+    EmployeeBo employeeBo = (EmployeeBo) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE);
+
     @FXML
     void OnActionbutGenearateReport(ActionEvent event) {
 
@@ -84,8 +89,7 @@ public class EmployeeFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
-        EmployeeDao employeeDao = new EmployeeDaoImpl();
-        boolean result = employeeDao.deleteEmployee(lblEmployeeId.getText());
+        boolean result = employeeBo.delete(lblEmployeeId.getText());
 
         if (result) {
             new Alert(Alert.AlertType.INFORMATION, "Employee Delete Successful").show();
@@ -157,8 +161,7 @@ public class EmployeeFormController implements Initializable {
             return;
         }
 
-        EmployeeDao employeeDao = new EmployeeDaoImpl();
-        boolean isResult = employeeDao.seveEmployee(new EmployeeDto(empId, name, role, email, address, contact, salary));
+        boolean isResult = employeeBo.save(new EmployeeDto(empId, name, role, email, address, contact, salary));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Employee Save Successful").show();
@@ -230,8 +233,7 @@ public class EmployeeFormController implements Initializable {
             return;
         }
 
-        EmployeeDao employeeDao = new EmployeeDaoImpl();
-        boolean isResult = employeeDao.updateEmployee(new EmployeeDto(empId, name, role, email, address, contact, salary));
+        boolean isResult = employeeBo.update(new EmployeeDto(empId, name, role, email, address, contact, salary));
 
         if (isResult) {
             new Alert(Alert.AlertType.INFORMATION, "Employee Update Successful").show();
@@ -266,8 +268,7 @@ public class EmployeeFormController implements Initializable {
     }
 
     public void loadTable() throws SQLException {
-        EmployeeDao employeeDao = new EmployeeDaoImpl();
-        ArrayList<EmployeeDto> employeeDtos = employeeDao.getAllEmployees();
+        ArrayList<EmployeeDto> employeeDtos = employeeBo.getAll();
 
         ObservableList<EmployeeTm> employeeTms = FXCollections.observableArrayList();
 
@@ -287,8 +288,7 @@ public class EmployeeFormController implements Initializable {
     }
 
     public void getNextEmployeeId() throws SQLException {
-        EmployeeDao employeeDao = new EmployeeDaoImpl();
-        String empId = employeeDao.getNextEmployeeId();
+        String empId = employeeBo.getNextId();
         lblEmployeeId.setText(empId);
     }
 

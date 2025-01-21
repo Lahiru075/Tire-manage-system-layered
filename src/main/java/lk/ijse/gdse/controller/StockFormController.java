@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.StockBo;
+import lk.ijse.gdse.bo.custom.impl.StockBoImpl;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
 import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dto.StockDto;
@@ -82,6 +85,8 @@ public class StockFormController implements Initializable {
     @FXML
     private ComboBox<String> cmbTireId;
 
+    StockBo stockBo = (StockBo) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
+
     @FXML
     void OnActionbutGenearateReport(ActionEvent event) {
 
@@ -89,8 +94,7 @@ public class StockFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
-        StockDao stockDao = new StockDaoImpl();
-        boolean result = stockDao.deleteStock(lbStockId.getText());
+        boolean result = stockBo.delete(lbStockId.getText());
 
         if (result) {
             new Alert(Alert.AlertType.INFORMATION, "Stock Delete Successful").show();
@@ -151,8 +155,7 @@ public class StockFormController implements Initializable {
             return;
         }
 
-        StockDao stockDao = new StockDaoImpl();
-        boolean isSaved = stockDao.isSaved(new StockDto(
+        boolean isSaved = stockBo.save(new StockDto(
                 stockId,
                 description,
                 last_update,
@@ -237,8 +240,7 @@ public class StockFormController implements Initializable {
             return;
         }
 
-        StockDaoImpl stockDao = new StockDaoImpl();
-        boolean isUpdate = stockDao.isUpdate(new StockDto(
+        boolean isUpdate = stockBo.update(new StockDto(
                 stockId,
                 description,
                 last_update,
@@ -279,8 +281,7 @@ public class StockFormController implements Initializable {
     }
 
     void getAllStock() throws SQLException {
-        StockDao stockDao = new StockDaoImpl();
-        ArrayList<StockDto> stockDTOS = stockDao.getAllStock();
+        ArrayList<StockDto> stockDTOS = stockBo.getAll();
 
         ObservableList<StockTm> stockTms = FXCollections.observableArrayList();
 
@@ -300,8 +301,7 @@ public class StockFormController implements Initializable {
     }
 
     void getNextStockId () throws SQLException {
-        StockDao stockDao = new StockDaoImpl();
-        String stockId = stockDao.getNextStockId();
+        String stockId = stockBo.getNextId();
         lbStockId.setText(stockId);
     }
 
