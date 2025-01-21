@@ -1,41 +1,41 @@
-package lk.ijse.gdse.dao.costom.impl;
+package lk.ijse.gdse.bo.custom.impl;
 
 import javafx.scene.control.Alert;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.StockBo;
+import lk.ijse.gdse.bo.custom.SupplierBo;
+import lk.ijse.gdse.bo.custom.SupplierOrderBo;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
 import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.SupplierOrderDao;
+import lk.ijse.gdse.dao.costom.impl.PlaceOrderDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.SupplierOrderDaoImpl;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.StockDto;
 import lk.ijse.gdse.dto.SupplierOrderDto;
+import lk.ijse.gdse.entity.SupplierOrder;
 import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class SupplierOrderDaoImpl implements SupplierOrderDao {
+public class SupplierOrderBoImpl implements SupplierOrderBo {
 
-//    StockDaoImpl stockDao = new StockDaoImpl();
-//    PlaceOrderDaoImpl placeOrderDao = new PlaceOrderDaoImpl();
+    SupplierOrderDao supplierOrderDao = new SupplierOrderDaoImpl();
+    StockBo stockBo = (StockBo) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
 
-    public String getNextOrderId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("select supOrderId from supplier_order order by supOrderId desc limit 1");
-
-        if (rst.next()){
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(2);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("SO%03d", newIdIndex);
-        }
-        return "SO001";
+    public String getNextId() throws SQLException {
+        return supplierOrderDao.getNextId();
     }
 
     public boolean saveOrder(ArrayList<SupplierOrderDto> supplierOrderDtos) throws SQLException {
         for (SupplierOrderDto supplierOrderDto : supplierOrderDtos){
-            boolean isOrderSave = saveSupplierOrder(supplierOrderDto);
+            boolean isOrderSave = save(supplierOrderDto);
 
             if (!isOrderSave){
                 return false;
@@ -44,25 +44,31 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
         return true;
     }
 
-    public boolean saveSupplierOrder(SupplierOrderDto supplierOrderDto) throws SQLException {
-        return CrudUtil.execute("insert into supplier_order values (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    public boolean save(SupplierOrderDto supplierOrderDto) throws SQLException {
+
+        return supplierOrderDao.save(new SupplierOrder(
                 supplierOrderDto.getOrderId(),
+                supplierOrderDto.getStockId(),
                 supplierOrderDto.getSupId(),
                 supplierOrderDto.getEmployeeId(),
-                supplierOrderDto.getStockId(),
-                supplierOrderDto.getTireModel(),
-                supplierOrderDto.getQty(),
                 supplierOrderDto.getOrderDate(),
-                supplierOrderDto.getRequestDate(),
-                supplierOrderDto.getTotal(),
-                supplierOrderDto.getTireBrand(),
                 supplierOrderDto.getYear(),
+                supplierOrderDto.getRequestDate(),
+                supplierOrderDto.getTireModel(),
+                supplierOrderDto.getTireBrand(),
+                supplierOrderDto.getOrderStatus(),
                 supplierOrderDto.getOrderSize(),
-                supplierOrderDto.getOrderStatus()
-        );
+                supplierOrderDto.getTotal(),
+                supplierOrderDto.getQty()
+        ));
+
     }
 
-    public ArrayList<SupplierOrderDto> getAllSupplierOrders() throws SQLException {
+    public boolean delete(String Id) throws SQLException {
+        return false;
+    }
+
+    public ArrayList<SupplierOrderDto> getAll() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from supplier_order");
 
         ArrayList<SupplierOrderDto> supplierOrderDtos = new ArrayList<>();
@@ -89,7 +95,7 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
         return supplierOrderDtos;
     }
 
-    public boolean isUpdate(SupplierOrderDto supplierOrderDto) throws SQLException {
+    public boolean update(SupplierOrderDto supplierOrderDto) throws SQLException {
         return CrudUtil.execute("UPDATE supplier_order SET supId=?, empId=? , tireModel=?, qty=?, order_date=?, request_date=?, total_amount=?, tire_brand=?, year=?, size=?, order_status=? WHERE supOrderId=? AND stockId=?",
                 supplierOrderDto.getSupId(),
                 supplierOrderDto.getEmployeeId(),
@@ -117,24 +123,25 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
 
         try {
             connection.setAutoCommit(false);
-            boolean isUpdate = CrudUtil.execute("UPDATE supplier_order SET order_status = ? WHERE supOrderId=? AND stockId=?",
-                    "Completed",
-                    supplierOrderDto.getOrderId(),
-                    supplierOrderDto.getStockId()
-            );
+//            boolean isUpdate = CrudUtil.execute("UPDATE supplier_order SET order_status = ? WHERE supOrderId=? AND stockId=?",
+//                    "Completed",
+//                    supplierOrderDto.getOrderId(),
+//                    supplierOrderDto.getStockId()
+//            );
+
+            boolean isUpdate = supplierOrderDao.isUpdate("completed",supplierOrderDto.getOrderId(),supplierOrderDto.getStockId());
 
             if (isUpdate){
                 String description = supplierOrderDto.getTireBrand() + " " + supplierOrderDto.getTireModel() + " " + supplierOrderDto.getOrderSize();
 
-                StockDao stockDao = new StockDaoImpl();
-                boolean isTireIsExists = stockDao.checkIsExists(description);
+                boolean isTireIsExists = stockBo.checkIsExists(description);
 
                 if (isTireIsExists) {
-                    String getStockId = stockDao.getStockId(description);
+                    String getStockId = stockBo.getStockId(description);
 
                     String date = LocalDate.now().toString();
 
-                    boolean isStockUpdate = stockDao.updateStock(getStockId, supplierOrderDto.getQty(), date);
+                    boolean isStockUpdate = stockBo.updateStock(getStockId, supplierOrderDto.getQty(), date);
 
                     if (isStockUpdate){
                         connection.commit();
@@ -147,7 +154,7 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
                     String model = supplierOrderDto.getTireModel();
                     String size = supplierOrderDto.getOrderSize();
 
-                    String stockId = stockDao.getNextStockId();
+                    String stockId = stockBo.getNextId();
                     PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
                     String tireId = placeOrderDao.checkIsExists(brand, model, size);
 
@@ -160,7 +167,7 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
                         stockDto.setQty(supplierOrderDto.getQty());
                         stockDto.setTireId(tireId);
 
-                        boolean isStockSave = stockDao.isSaved(stockDto);
+                        boolean isStockSave = stockBo.save(stockDto);
 
                         if (isStockSave){
                             connection.commit();

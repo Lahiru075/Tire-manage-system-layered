@@ -15,7 +15,7 @@ public class DAOFactory {
     }
 
     public enum DAOType{
-        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER
+        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER,SUPPLIER_ORDER
     }
 
     public SuperDao getDAO(DAOType type){
@@ -32,6 +32,8 @@ public class DAOFactory {
                 return new StockDaoImpl();
             case PLACE_ORDER:
                 return new PlaceOrderDaoImpl();
+            case SUPPLIER_ORDER:
+                return new SupplierOrderDaoImpl();
             default:
                 return null;
         }

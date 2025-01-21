@@ -1,17 +1,13 @@
 package lk.ijse.gdse.dao.costom;
 
 import lk.ijse.gdse.dto.SupplierOrderDto;
+import lk.ijse.gdse.entity.SupplierOrder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface SupplierOrderDao {
-    String getNextOrderId() throws SQLException;
-    boolean saveOrder(ArrayList<SupplierOrderDto> supplierOrderDtos) throws SQLException;
-    boolean saveSupplierOrder(SupplierOrderDto supplierOrderDto) throws SQLException;
-    ArrayList<SupplierOrderDto> getAllSupplierOrders() throws SQLException;
-    boolean isUpdate(SupplierOrderDto supplierOrderDto) throws SQLException;
+public interface SupplierOrderDao extends CrudDao<SupplierOrder> {
     boolean deleteSupplierOrder(String orderId, String stockId) throws SQLException;
-    boolean addSupplierOrder(SupplierOrderDto supplierOrderDto) throws SQLException;
-
+    boolean isUpdate(String completed, String orderId, String stockId) throws SQLException;
+//    boolean addSupplierOrder(SupplierOrder supplierOrder) throws SQLException;
 }

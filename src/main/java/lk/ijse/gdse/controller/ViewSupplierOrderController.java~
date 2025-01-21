@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.bo.custom.BOFactory;
 import lk.ijse.gdse.bo.custom.SupplierOrderBo;
 import lk.ijse.gdse.bo.custom.impl.SupplierOrderBoImpl;
 import lk.ijse.gdse.dao.costom.DAOFactory;
@@ -118,7 +117,7 @@ public class ViewSupplierOrderController implements Initializable {
     @FXML
     private TextField txtYear;
 
-    SupplierOrderBo supplierOrderBo = (SupplierOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.SUPPLIER_ORDER);
+    SupplierOrderBo supplierOrderBo = (SupplierOrderBo) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.SUPPLIER_ORDER);
 
     @FXML
     void butAddToStockOnAction(ActionEvent event) throws SQLException {

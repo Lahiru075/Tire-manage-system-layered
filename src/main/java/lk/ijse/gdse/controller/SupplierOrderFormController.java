@@ -13,10 +13,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lk.ijse.gdse.dao.costom.EmployeeDao;
-import lk.ijse.gdse.dao.costom.StockDao;
-import lk.ijse.gdse.dao.costom.SupplierDao;
-import lk.ijse.gdse.dao.costom.SupplierOrderDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.SupplierBo;
+import lk.ijse.gdse.bo.custom.SupplierOrderBo;
+import lk.ijse.gdse.bo.custom.impl.SupplierOrderBoImpl;
+import lk.ijse.gdse.dao.costom.*;
 import lk.ijse.gdse.dao.costom.impl.EmployeeDaoImpl;
 import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
 import lk.ijse.gdse.dao.costom.impl.SupplierDaoImpl;
@@ -126,6 +127,8 @@ public class SupplierOrderFormController implements Initializable {
 
     @FXML
     private TextField txtYear;
+
+    SupplierOrderBo supplierOrderBo = (SupplierOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.SUPPLIER_ORDER);
 
     @FXML
     void butAddOnAction(ActionEvent event) throws SQLException {
@@ -297,8 +300,7 @@ public class SupplierOrderFormController implements Initializable {
             return;
         }
 
-        SupplierOrderDao supplierOrderDao = new SupplierOrderDaoImpl();
-        boolean isSaveOrder = supplierOrderDao.saveOrder(supplierOrderDtos);
+        boolean isSaveOrder = supplierOrderBo.saveOrder(supplierOrderDtos);
 
         if (isSaveOrder){
             new Alert(Alert.AlertType.INFORMATION,"Successfully saved").showAndWait();
@@ -355,8 +357,7 @@ public class SupplierOrderFormController implements Initializable {
     }
 
     private void getNextOrderId() throws SQLException {
-        SupplierOrderDao supplierOrderDao = new SupplierOrderDaoImpl();
-        String orderId = supplierOrderDao.getNextOrderId();
+        String orderId = supplierOrderBo.getNextId();
         lbOrderId.setText(orderId);
     }
 
