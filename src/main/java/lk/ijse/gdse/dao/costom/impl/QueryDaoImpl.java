@@ -3,6 +3,7 @@ package lk.ijse.gdse.dao.costom.impl;
 import lk.ijse.gdse.dao.costom.QueryDao;
 import lk.ijse.gdse.dto.OrderViewDto;
 import lk.ijse.gdse.dto.ReportDto;
+import lk.ijse.gdse.entity.OrderView;
 import lk.ijse.gdse.entity.Report;
 import lk.ijse.gdse.util.CrudUtil;
 
@@ -52,69 +53,69 @@ public class QueryDaoImpl implements QueryDao {
         return reports;
     }
 
-    public ArrayList<OrderViewDto> getAllOrders() throws SQLException {
+    public ArrayList<OrderView> getAllOrders() throws SQLException {
         ResultSet rst = CrudUtil.execute("SELECT o.orderId, o.date,  o.custId, o.empId, t.tireId,  t.description, t.payment_method, t.qty,  t.total_amount FROM   orders o JOIN tire_order t ON o.orderId = t.orderId");
 
-        ArrayList<OrderViewDto> orderViewDTOS = new ArrayList<>();
+        ArrayList<OrderView> orderViews = new ArrayList<>();
         while (rst.next()) {
-            OrderViewDto orderViewDto = new OrderViewDto();
-            orderViewDto.setOrderId(rst.getString(1));
-            orderViewDto.setDate(rst.getString(2));
-            orderViewDto.setCustId(rst.getString(3));
-            orderViewDto.setEmpId(rst.getString(4));
-            orderViewDto.setTireId(rst.getString(5));
-            orderViewDto.setDescription(rst.getString(6));
-            orderViewDto.setPayment_method(rst.getString(7));
-            orderViewDto.setQty(rst.getInt(8));
-            orderViewDto.setTotal_amount(rst.getDouble(9));
+            OrderView orderView = new OrderView();
+            orderView.setOrderId(rst.getString(1));
+            orderView.setDate(rst.getString(2));
+            orderView.setCustId(rst.getString(3));
+            orderView.setEmpId(rst.getString(4));
+            orderView.setTireId(rst.getString(5));
+            orderView.setDescription(rst.getString(6));
+            orderView.setPayment_method(rst.getString(7));
+            orderView.setQty(rst.getInt(8));
+            orderView.setTotal_amount(rst.getDouble(9));
 
-            orderViewDTOS.add(orderViewDto);
+            orderViews.add(orderView);
         }
-        return orderViewDTOS;
+        return orderViews;
     }
 
-    public ArrayList<OrderViewDto> searchByCustId(String custId) throws SQLException {
+    public ArrayList<OrderView> searchByCustId(String custId) throws SQLException {
         ResultSet rst = CrudUtil.execute("SELECT o.orderId, o.date,  o.custId, o.empId, t.tireId,  t.description, t.payment_method, t.qty,  t.total_amount FROM   orders o JOIN tire_order t ON o.orderId = t.orderId WHERE o.custId = ?", custId);
 
-        ArrayList<OrderViewDto> orderViewDTOS = new ArrayList<>();
+        ArrayList<OrderView> orderViews = new ArrayList<>();
 
         while (rst.next()) {
-            OrderViewDto orderViewDto = new OrderViewDto();
-            orderViewDto.setOrderId(rst.getString(1));
-            orderViewDto.setDate(rst.getString(2));
-            orderViewDto.setCustId(rst.getString(3));
-            orderViewDto.setEmpId(rst.getString(4));
-            orderViewDto.setTireId(rst.getString(5));
-            orderViewDto.setDescription(rst.getString(6));
-            orderViewDto.setPayment_method(rst.getString(7));
-            orderViewDto.setQty(rst.getInt(8));
-            orderViewDto.setTotal_amount(rst.getDouble(9));
+            OrderView orderView = new OrderView();
+            orderView.setOrderId(rst.getString(1));
+            orderView.setDate(rst.getString(2));
+            orderView.setCustId(rst.getString(3));
+            orderView.setEmpId(rst.getString(4));
+            orderView.setTireId(rst.getString(5));
+            orderView.setDescription(rst.getString(6));
+            orderView.setPayment_method(rst.getString(7));
+            orderView.setQty(rst.getInt(8));
+            orderView.setTotal_amount(rst.getDouble(9));
 
-            orderViewDTOS.add(orderViewDto);
+            orderViews.add(orderView);
         }
-        return orderViewDTOS;
+        return orderViews;
     }
 
-    public ArrayList<OrderViewDto> searchByDayforOrders(String day1, String day2) throws SQLException {
+    public ArrayList<OrderView> searchByDayforOrders(String day1, String day2) throws SQLException {
         ResultSet rst = CrudUtil.execute("SELECT o.orderId, o.date,  o.custId, o.empId, t.tireId,  t.description, t.payment_method, t.qty,  t.total_amount FROM   orders o JOIN tire_order t ON o.orderId = t.orderId WHERE o.date BETWEEN ? AND ?",day1,day2);
 
-        ArrayList<OrderViewDto> orderViewDTOS = new ArrayList<>();
+        ArrayList<OrderView> orderViews = new ArrayList<>();
 
         while (rst.next()) {
-            OrderViewDto orderViewDto = new OrderViewDto();
-            orderViewDto.setOrderId(rst.getString(1));
-            orderViewDto.setDate(rst.getString(2));
-            orderViewDto.setCustId(rst.getString(3));
-            orderViewDto.setEmpId(rst.getString(4));
-            orderViewDto.setTireId(rst.getString(5));
-            orderViewDto.setDescription(rst.getString(6));
-            orderViewDto.setPayment_method(rst.getString(7));
-            orderViewDto.setQty(rst.getInt(8));
-            orderViewDto.setTotal_amount(rst.getDouble(9));
+            OrderView orderView = new OrderView();
+            orderView.setOrderId(rst.getString(1));
+            orderView.setDate(rst.getString(2));
+            orderView.setCustId(rst.getString(3));
+            orderView.setEmpId(rst.getString(4));
+            orderView.setTireId(rst.getString(5));
+            orderView.setDescription(rst.getString(6));
+            orderView.setPayment_method(rst.getString(7));
+            orderView.setQty(rst.getInt(8));
+            orderView.setTotal_amount(rst.getDouble(9));
 
-            orderViewDTOS.add(orderViewDto);
+            orderViews.add(orderView);
         }
-        return orderViewDTOS;
+        return orderViews;
     }
 
 

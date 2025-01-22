@@ -19,7 +19,7 @@ public class BOFactory {
     }
 
     public enum BOType {
-        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER,SUPPLIER_ORDER,PAYMENT,DISCOUNT,CONFIRM_ORDER,ORDER,REPORT
+        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER,SUPPLIER_ORDER,PAYMENT,DISCOUNT,CONFIRM_ORDER,ORDER,REPORT,VIEW_ORDER
     }
 
     public SuperBo getBO(BOType type){
@@ -48,6 +48,8 @@ public class BOFactory {
                 return new OrderBoImpl();
             case REPORT:
                 return new ReportBoImpl();
+            case VIEW_ORDER:
+                return new ViewOrderBoImpl();
             default:
                 return null;
         }

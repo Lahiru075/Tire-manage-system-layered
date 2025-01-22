@@ -7,13 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.CustomerBo;
 import lk.ijse.gdse.bo.custom.ViewOrderBo;
-import lk.ijse.gdse.bo.custom.impl.ViewOrderBoImpl;
-import lk.ijse.gdse.dao.costom.OrderViewDao;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.OrderViewDto;
 import lk.ijse.gdse.dto.Tm.OrderViewTm;
-import lk.ijse.gdse.dao.costom.impl.OrderViewDaoImpl;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -84,7 +83,8 @@ public class ViewOrdersController implements Initializable {
     @FXML
     private TextField txtSecondDay;
 
-    ViewOrderBo viewOrderBo = new ViewOrderBoImpl();
+    ViewOrderBo viewOrderBo = (ViewOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.VIEW_ORDER);
+    CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
 
     @FXML
     void butSearchCustIdOnAction(ActionEvent event) throws SQLException {
@@ -213,8 +213,7 @@ public class ViewOrdersController implements Initializable {
     }
 
     private void loadCustomerIds() throws SQLException {
-        OrderViewDao orderViewDao = new OrderViewDaoImpl();
-        ArrayList<String> customerIds = orderViewDao.getAllCustomerIds();
+        ArrayList<String> customerIds = customerBo.getAllCustIds();
         ObservableList<String> observableCustomerIds = FXCollections.observableArrayList(customerIds);
         cmbCustomerId.setItems(observableCustomerIds);
     }
