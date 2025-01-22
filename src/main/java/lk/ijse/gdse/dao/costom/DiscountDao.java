@@ -4,7 +4,5 @@ import lk.ijse.gdse.dto.DiscountDto;
 
 import java.sql.SQLException;
 
-public interface DiscountDao {
-    String getNextDiscId() throws SQLException;
-    boolean addDiscount(DiscountDto discountDto) throws SQLException;
+public interface DiscountDao extends CrudDao<DiscountDto>{
 }

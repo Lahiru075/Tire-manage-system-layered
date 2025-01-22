@@ -1,11 +1,11 @@
-package lk.ijse.gdse.dao.costom;
+package lk.ijse.gdse.bo.custom;
 
 import lk.ijse.gdse.dto.ReportDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface ReportDao {
+public interface ReportBo extends SuperBo{
     ArrayList<ReportDto> getAllReport() throws SQLException;
     ArrayList<ReportDto> searchByDay(String day1, String day2) throws SQLException;
 }

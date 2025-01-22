@@ -44,4 +44,10 @@ public class UserBoImpl implements UserBo {
     public boolean delete(String userId) throws SQLException {
         return userDao.delete(userId);
     }
+
+    public UserDto checkUser(String username, String password) throws SQLException {
+        User user = userDao.checkUser(username,password);
+
+        return new UserDto(user.getUsId(),user.getRole(),user.getPassword(),user.getUsername());
+    }
 }

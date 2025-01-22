@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.gdse.bo.custom.ViewOrderBo;
+import lk.ijse.gdse.bo.custom.impl.ViewOrderBoImpl;
 import lk.ijse.gdse.dao.costom.OrderViewDao;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.OrderViewDto;
@@ -82,6 +84,8 @@ public class ViewOrdersController implements Initializable {
     @FXML
     private TextField txtSecondDay;
 
+    ViewOrderBo viewOrderBo = new ViewOrderBoImpl();
+
     @FXML
     void butSearchCustIdOnAction(ActionEvent event) throws SQLException {
         String custId = cmbCustomerId.getValue();
@@ -91,8 +95,7 @@ public class ViewOrdersController implements Initializable {
             return;
         }
 
-        OrderViewDao orderViewDao = new OrderViewDaoImpl();
-        ArrayList<OrderViewDto> orderViewDtos = orderViewDao.searchByCustId(custId);
+        ArrayList<OrderViewDto> orderViewDtos = viewOrderBo.searchByCustId(custId);
 
         if (orderViewDtos.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "No orders found for customer ID: " + custId).showAndWait();
@@ -146,8 +149,7 @@ public class ViewOrdersController implements Initializable {
             return;
         }
 
-        OrderViewDao orderViewDao = new OrderViewDaoImpl();
-        ArrayList<OrderViewDto> orderViewDtos = orderViewDao.searchByDay(day1, day2);
+        ArrayList<OrderViewDto> orderViewDtos = viewOrderBo.searchByDayforOrders(day1, day2);
 
         if (orderViewDtos.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "No orders found between " + day1 + " and " + day2).showAndWait();
@@ -181,8 +183,7 @@ public class ViewOrdersController implements Initializable {
     }
 
     public void getAllOrders() throws SQLException {
-        OrderViewDao orderViewDao = new OrderViewDaoImpl();
-        ArrayList<OrderViewDto> orderViewDtos = orderViewDao.getAllOrders();
+        ArrayList<OrderViewDto> orderViewDtos = viewOrderBo.getAllOrders();
 
         ObservableList<OrderViewTm> orderViewTms = FXCollections.observableArrayList();
 

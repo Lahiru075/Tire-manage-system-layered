@@ -237,8 +237,7 @@ public class PlaceOrderController implements Initializable {
             return;
         }
 
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        PlaceOrderDto placeOrderDto = placeOrderDao.getTire(tireId);
+        PlaceOrderDto placeOrderDto = placeOrderBo.getTire(tireId);
 
         String description = placeOrderDto.getTireBrand() + " " + placeOrderDto.getTireModel() + " " + placeOrderDto.getTireSize();
         double price = placeOrderDto.getTirePrice();
@@ -406,8 +405,7 @@ public class PlaceOrderController implements Initializable {
             return;
         }
 
-        PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
-        ArrayList<PlaceOrderDto> placeOrderDTOS = placeOrderDao.getTireByBrand(brand);
+        ArrayList<PlaceOrderDto> placeOrderDTOS = placeOrderBo.getTireByBrand(brand);
 
         if (placeOrderDTOS.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "No tire found").showAndWait();

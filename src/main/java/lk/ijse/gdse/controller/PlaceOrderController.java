@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lk.ijse.gdse.bo.custom.BOFactory;
 import lk.ijse.gdse.bo.custom.CustomerBo;
+import lk.ijse.gdse.bo.custom.OrderBo;
 import lk.ijse.gdse.bo.custom.PlaceOrderBo;
 import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
 import lk.ijse.gdse.bo.custom.impl.PlaceOrderBoImpl;
@@ -119,6 +120,7 @@ public class PlaceOrderController implements Initializable {
 
     CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
     PlaceOrderBo placeOrderBo = (PlaceOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.PLACE_ORDER);
+    OrderBo orderBo = (OrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.ORDER);
 
     public Label getDate(){
         return labDate;
@@ -450,8 +452,7 @@ public class PlaceOrderController implements Initializable {
         labDate.setText(LocalDate.now().toString());
 
         try {
-            OrderDaoImpl orderDao = new OrderDaoImpl();
-            labOrderId.setText(orderDao.getNextOrderId());
+            labOrderId.setText(orderBo.getNextId());
             loadEmpIds();
             loadTable();
             set1CellValues();
@@ -464,8 +465,7 @@ public class PlaceOrderController implements Initializable {
         loadTable();
 
         labQty.setText("");
-        OrderDaoImpl orderDao = new OrderDaoImpl();
-        labOrderId.setText(orderDao.getNextOrderId());
+        labOrderId.setText(orderBo.getNextId());
         txtTireId.setText("");
         txtQty.setText("");
         textContact.setText("");

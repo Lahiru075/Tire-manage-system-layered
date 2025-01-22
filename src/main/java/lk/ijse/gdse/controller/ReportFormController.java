@@ -7,11 +7,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.gdse.dao.costom.ReportDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.ReportBo;
+import lk.ijse.gdse.bo.custom.impl.ReportBoImpl;
+import lk.ijse.gdse.dao.costom.QueryDao;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.ReportDto;
 import lk.ijse.gdse.dto.Tm.ReportTm;
-import lk.ijse.gdse.dao.costom.impl.ReportDaoImpl;
+import lk.ijse.gdse.dao.costom.impl.QueryDaoImpl;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -66,6 +69,8 @@ public class ReportFormController implements Initializable {
     @FXML
     private TextField txtSecondDay;
 
+    ReportBo reportBo = (ReportBo) BOFactory.getInstance().getBO(BOFactory.BOType.REPORT);
+
     @FXML
     void butResetOnAction(ActionEvent event) throws SQLException {
         reset();
@@ -88,8 +93,7 @@ public class ReportFormController implements Initializable {
             return;
         }
 
-        ReportDao reportDao = new ReportDaoImpl();
-        ArrayList<ReportDto> reportDtos = reportDao.searchByDay(day1, day2);
+        ArrayList<ReportDto> reportDtos = reportBo.searchByDay(day1, day2);
 
         ObservableList<ReportTm> reportTms = FXCollections.observableArrayList();
 
@@ -110,8 +114,7 @@ public class ReportFormController implements Initializable {
     }
 
     private void getAllReport() throws SQLException {
-        ReportDao reportDao = new ReportDaoImpl();
-        ArrayList<ReportDto> allReport = reportDao.getAllReport();
+        ArrayList<ReportDto> allReport = reportBo.getAllReport();
 
         ObservableList<ReportTm> reportTms = FXCollections.observableArrayList();
 

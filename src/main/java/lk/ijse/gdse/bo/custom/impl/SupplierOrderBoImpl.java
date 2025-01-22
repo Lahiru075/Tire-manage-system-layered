@@ -1,10 +1,8 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import javafx.scene.control.Alert;
-import lk.ijse.gdse.bo.custom.BOFactory;
-import lk.ijse.gdse.bo.custom.StockBo;
-import lk.ijse.gdse.bo.custom.SupplierBo;
-import lk.ijse.gdse.bo.custom.SupplierOrderBo;
+import lk.ijse.gdse.bo.custom.*;
+import lk.ijse.gdse.dao.costom.DAOFactory;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
 import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.SupplierOrderDao;
@@ -28,6 +26,7 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
 
     SupplierOrderDao supplierOrderDao = new SupplierOrderDaoImpl();
     StockBo stockBo = (StockBo) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
+    PlaceOrderDao placeOrderDao = (PlaceOrderDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PLACE_ORDER);
 
     public String getNextId() throws SQLException {
         return supplierOrderDao.getNextId();
@@ -96,26 +95,43 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
     }
 
     public boolean update(SupplierOrderDto supplierOrderDto) throws SQLException {
-        return CrudUtil.execute("UPDATE supplier_order SET supId=?, empId=? , tireModel=?, qty=?, order_date=?, request_date=?, total_amount=?, tire_brand=?, year=?, size=?, order_status=? WHERE supOrderId=? AND stockId=?",
+//        return CrudUtil.execute("UPDATE supplier_order SET supId=?, empId=? , tireModel=?, qty=?, order_date=?, request_date=?, total_amount=?, tire_brand=?, year=?, size=?, order_status=? WHERE supOrderId=? AND stockId=?",
+//                supplierOrderDto.getSupId(),
+//                supplierOrderDto.getEmployeeId(),
+//                supplierOrderDto.getTireModel(),
+//                supplierOrderDto.getQty(),
+//                supplierOrderDto.getOrderDate(),
+//                supplierOrderDto.getRequestDate(),
+//                supplierOrderDto.getTotal(),
+//                supplierOrderDto.getTireBrand(),
+//                supplierOrderDto.getYear(),
+//                supplierOrderDto.getOrderSize(),
+//                supplierOrderDto.getOrderStatus(),
+//                supplierOrderDto.getOrderId(),
+//                supplierOrderDto.getStockId()
+//        );
+
+        return supplierOrderDao.update(new SupplierOrder(
+                supplierOrderDto.getOrderId(),
+                supplierOrderDto.getStockId(),
                 supplierOrderDto.getSupId(),
                 supplierOrderDto.getEmployeeId(),
-                supplierOrderDto.getTireModel(),
-                supplierOrderDto.getQty(),
                 supplierOrderDto.getOrderDate(),
-                supplierOrderDto.getRequestDate(),
-                supplierOrderDto.getTotal(),
-                supplierOrderDto.getTireBrand(),
                 supplierOrderDto.getYear(),
-                supplierOrderDto.getOrderSize(),
+                supplierOrderDto.getRequestDate(),
+                supplierOrderDto.getTireModel(),
+                supplierOrderDto.getTireBrand(),
                 supplierOrderDto.getOrderStatus(),
-                supplierOrderDto.getOrderId(),
-                supplierOrderDto.getStockId()
-        );
+                supplierOrderDto.getOrderSize(),
+                supplierOrderDto.getTotal(),
+                supplierOrderDto.getQty()
 
+        ));
     }
 
     public boolean deleteSupplierOrder(String orderId, String stockId) throws SQLException {
-        return CrudUtil.execute("delete from supplier_order where supOrderId = ? and stockId = ?", orderId, stockId);
+//        return CrudUtil.execute("delete from supplier_order where supOrderId = ? and stockId = ?", orderId, stockId);
+        return supplierOrderDao.deleteSupplierOrder(orderId,stockId);
     }
 
     public boolean addSupplierOrder(SupplierOrderDto supplierOrderDto) throws SQLException {
@@ -155,7 +171,6 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
                     String size = supplierOrderDto.getOrderSize();
 
                     String stockId = stockBo.getNextId();
-                    PlaceOrderDao placeOrderDao = new PlaceOrderDaoImpl();
                     String tireId = placeOrderDao.checkIsExists(brand, model, size);
 
                     if (tireId != null) {
@@ -173,6 +188,7 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
                             connection.commit();
                             return true;
                         }
+
                     }else{
                         new Alert(Alert.AlertType.ERROR, "Please add tire your tire table..").showAndWait();
                     }

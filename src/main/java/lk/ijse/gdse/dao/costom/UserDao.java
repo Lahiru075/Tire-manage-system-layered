@@ -7,5 +7,5 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface UserDao extends CrudDao<User>{
-
+    User checkUser(String username, String password) throws SQLException;
 }

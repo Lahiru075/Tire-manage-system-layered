@@ -12,9 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.gdse.dao.costom.LoginDao;
+import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.custom.UserBo;
 import lk.ijse.gdse.dto.UserDto;
-import lk.ijse.gdse.dao.costom.impl.LoginDaoImpl;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,6 +38,8 @@ public class LoginFormController {
     @FXML
     private TextField txtUsername;
 
+    UserBo userBo = (UserBo) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
+
     @FXML
     void butLoginOnAction(ActionEvent event) {
         String password = txtPassword.getText();
@@ -48,8 +50,7 @@ public class LoginFormController {
             new Alert(Alert.AlertType.ERROR, "Please enter username and password").show();
         } else {
             try {
-                LoginDao loginDao = new LoginDaoImpl();
-                UserDto userDto = loginDao.checkUser(username, password);
+                UserDto userDto = userBo.checkUser(username, password);
                 if (userDto.getRole() != null) {
                     Stage currentStage = (Stage) mainAnchorPane.getScene().getWindow();
                     currentStage.close();

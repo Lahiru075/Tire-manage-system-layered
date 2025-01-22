@@ -177,8 +177,7 @@ public class ViewSupplierOrderController implements Initializable {
         String orderId = lbOrderId.getText();
         String stockId = cmbStockId.getValue();
 
-        SupplierOrderDao supplierOrderDao = new SupplierOrderDaoImpl();
-        boolean isDelete = supplierOrderDao.deleteSupplierOrder(orderId, stockId);
+        boolean isDelete = supplierOrderBo.deleteSupplierOrder(orderId, stockId);
 
         if (isDelete) {
             new Alert(Alert.AlertType.INFORMATION, "Supplier Order Delete Successful").showAndWait();

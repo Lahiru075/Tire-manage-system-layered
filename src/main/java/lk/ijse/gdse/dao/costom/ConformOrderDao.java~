@@ -1,7 +1,0 @@
-package lk.ijse.gdse.dao.costom;
-
-import java.sql.SQLException;
-
-public interface ConformOrderDAO {
-    String getNextPaymentId() throws SQLException;
-}
