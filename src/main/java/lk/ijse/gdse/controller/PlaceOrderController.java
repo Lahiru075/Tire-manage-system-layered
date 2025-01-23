@@ -14,10 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lk.ijse.gdse.bo.custom.BOFactory;
-import lk.ijse.gdse.bo.custom.CustomerBo;
-import lk.ijse.gdse.bo.custom.OrderBo;
-import lk.ijse.gdse.bo.custom.PlaceOrderBo;
+import lk.ijse.gdse.bo.custom.*;
 import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
 import lk.ijse.gdse.bo.custom.impl.PlaceOrderBoImpl;
 import lk.ijse.gdse.dao.costom.EmployeeDao;
@@ -121,6 +118,7 @@ public class PlaceOrderController implements Initializable {
     CustomerBo customerBo = (CustomerBo) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
     PlaceOrderBo placeOrderBo = (PlaceOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.PLACE_ORDER);
     OrderBo orderBo = (OrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.ORDER);
+    StockBo stockBo = (StockBo) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
 
     public Label getDate(){
         return labDate;
@@ -272,6 +270,7 @@ public class PlaceOrderController implements Initializable {
 
         if (cartTms.isEmpty()) {
             txtTotal.setText(String.valueOf(newPrice));
+
         } else {
             totalPrice = Double.parseDouble(txtTotal.getText());
         }
@@ -281,8 +280,7 @@ public class PlaceOrderController implements Initializable {
                 int newQty = cartTm.getQty() + qty;
 
                 // check quantity
-                StockDaoImpl stockDao = new StockDaoImpl();
-                int checkQty = stockDao.getQty(description);
+                int checkQty = stockBo.getQty(description);
 
                 if (newQty > checkQty) {
                     new Alert(Alert.AlertType.ERROR, "Not enough stock").showAndWait();

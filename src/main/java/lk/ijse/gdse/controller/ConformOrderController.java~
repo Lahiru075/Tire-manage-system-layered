@@ -85,16 +85,16 @@ public class ConformOrderController implements Initializable {
         //TireOrderDto tireOrderDto = this.placeOrderController.getTireOrderDto();
 
         for (CartTm cartTm : this.placeOrderController.getCartTms()) {
-            TireOrderDto tireOrderDto1 = new TireOrderDto();
+            TireOrderDto tireOrderDto = new TireOrderDto();
 
-            tireOrderDto1.setOrderId(this.placeOrderController.getLabOrderId().getText());
-            tireOrderDto1.setTireId(cartTm.getTireId());
-            tireOrderDto1.setDescription(cartTm.getDesc());
-            tireOrderDto1.setQty(cartTm.getQty());
-            tireOrderDto1.setTotal_amount(cartTm.getPrice());
-            tireOrderDto1.setPayment_method(cmbPayment.getValue());
+            tireOrderDto.setOrderId(this.placeOrderController.getLabOrderId().getText());
+            tireOrderDto.setTireId(cartTm.getTireId());
+            tireOrderDto.setDescription(cartTm.getDesc());
+            tireOrderDto.setQty(cartTm.getQty());
+            tireOrderDto.setTotal_amount(cartTm.getPrice());
+            tireOrderDto.setPayment_method(cmbPayment.getValue());
 
-            tireOrderDtos.add(tireOrderDto1);
+            tireOrderDtos.add(tireOrderDto);
 
         }
 

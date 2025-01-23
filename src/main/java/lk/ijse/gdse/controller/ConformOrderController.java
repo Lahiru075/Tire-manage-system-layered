@@ -146,7 +146,6 @@ public class ConformOrderController implements Initializable {
             System.out.println("Amount input is empty.");
         }
 
-
         String dateString = this.placeOrderController.getDate().getText();
         Date date = Date.valueOf(dateString);
 
