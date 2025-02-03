@@ -1,15 +1,12 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import lk.ijse.gdse.bo.custom.StockBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.StockDao;
-import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
 import lk.ijse.gdse.dto.StockDto;
 import lk.ijse.gdse.dto.TireOrderDto;
 import lk.ijse.gdse.entity.Stock;
-import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -65,7 +62,17 @@ public class StockBoImpl implements StockBo {
     }
 
     public String getNextId() throws SQLException {
-        return stockDao.getNextId();
+        String lastId = stockDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("S%03d", newIdIndex);
+            return lastId;
+        }
+
+        return "S001";
     }
 
     public boolean reduceQty(TireOrderDto tireOrderDto) throws SQLException {

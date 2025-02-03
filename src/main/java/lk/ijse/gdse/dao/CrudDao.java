@@ -1,6 +1,4 @@
-package lk.ijse.gdse.dao.costom;
-
-import lk.ijse.gdse.dto.CustomerDto;
+package lk.ijse.gdse.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

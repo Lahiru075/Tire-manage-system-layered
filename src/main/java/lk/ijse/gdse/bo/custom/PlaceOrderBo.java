@@ -1,11 +1,12 @@
 package lk.ijse.gdse.bo.custom;
 
+import lk.ijse.gdse.bo.SuperBo;
 import lk.ijse.gdse.dto.PlaceOrderDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface PlaceOrderBo extends SuperBo{
+public interface PlaceOrderBo extends SuperBo {
     String getNextId() throws SQLException;
     ArrayList<PlaceOrderDto> getAll() throws SQLException;
     int getQty(String tireId) throws SQLException;

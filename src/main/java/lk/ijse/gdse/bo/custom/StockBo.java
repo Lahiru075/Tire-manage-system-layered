@@ -1,12 +1,13 @@
 package lk.ijse.gdse.bo.custom;
 
+import lk.ijse.gdse.bo.SuperBo;
 import lk.ijse.gdse.dto.StockDto;
 import lk.ijse.gdse.dto.TireOrderDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface StockBo extends SuperBo{
+public interface StockBo extends SuperBo {
     ArrayList<StockDto> getAll() throws SQLException;
     boolean save(StockDto stockDto) throws SQLException;
     boolean update(StockDto stockDto) throws SQLException;

@@ -1,14 +1,11 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import lk.ijse.gdse.bo.custom.UserBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.UserDao;
-import lk.ijse.gdse.dao.costom.impl.UserDaoImpl;
 import lk.ijse.gdse.dto.UserDto;
 import lk.ijse.gdse.entity.User;
-import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,7 +14,19 @@ public class UserBoImpl implements UserBo {
     UserDao userDao = (UserDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
     public String getNextId() throws SQLException {
-        return userDao.getNextId();
+        String lastId = userDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("U%03d", newIdIndex);
+            System.out.println(lastId);
+            return lastId;
+
+        }
+
+        return "U001";
     }
 
     public boolean save(UserDto userDto) throws SQLException {

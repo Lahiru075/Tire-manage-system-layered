@@ -1,4 +1,4 @@
-package lk.ijse.gdse.dao.costom;
+package lk.ijse.gdse.dao;
 
 import lk.ijse.gdse.dao.costom.impl.*;
 

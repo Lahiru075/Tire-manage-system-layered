@@ -1,7 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.SupplierDao;
-import lk.ijse.gdse.dto.SupplierDto;
 import lk.ijse.gdse.entity.Supplier;
 import lk.ijse.gdse.util.CrudUtil;
 
@@ -14,13 +13,9 @@ public class SupplierDaoImpl implements SupplierDao {
         ResultSet rst = CrudUtil.execute("select supId from supplier order by supId desc limit 1");
 
         if (rst.next()){
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("S%03d", newIdIndex);
+            return rst.getString(1);
         }
-        return "S001";
+        return null;
     }
 
     public ArrayList<Supplier> getAll() throws SQLException {

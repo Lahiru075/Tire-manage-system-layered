@@ -1,6 +1,6 @@
 package lk.ijse.gdse.dao.costom;
 
-import lk.ijse.gdse.dto.CustomerDto;
+import lk.ijse.gdse.dao.CrudDao;
 import lk.ijse.gdse.entity.Customer;
 
 import java.sql.SQLException;

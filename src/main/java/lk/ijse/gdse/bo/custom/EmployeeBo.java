@@ -1,11 +1,12 @@
 package lk.ijse.gdse.bo.custom;
 
+import lk.ijse.gdse.bo.SuperBo;
 import lk.ijse.gdse.dto.EmployeeDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface EmployeeBo extends SuperBo{
+public interface EmployeeBo extends SuperBo {
     ArrayList<String> getAllEmployeesContact() throws SQLException;
     String getEmpId(String value) throws SQLException;
     String getNextId() throws SQLException;

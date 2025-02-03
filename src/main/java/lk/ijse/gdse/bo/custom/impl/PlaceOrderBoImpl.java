@@ -1,14 +1,11 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import lk.ijse.gdse.bo.custom.PlaceOrderBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
-import lk.ijse.gdse.dao.costom.impl.PlaceOrderDaoImpl;
 import lk.ijse.gdse.dto.PlaceOrderDto;
 import lk.ijse.gdse.entity.PlaceOrder;
-import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,7 +14,17 @@ public class PlaceOrderBoImpl implements PlaceOrderBo {
     PlaceOrderDao placeOrderDao = (PlaceOrderDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PLACE_ORDER);
 
     public String getNextId() throws SQLException {
-        return placeOrderDao.getNextId();
+        String lastId = placeOrderDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("T%03d", newIdIndex);
+            return lastId;
+        }
+
+        return "T001";
     }
 
     public ArrayList<PlaceOrderDto> getAll() throws SQLException {

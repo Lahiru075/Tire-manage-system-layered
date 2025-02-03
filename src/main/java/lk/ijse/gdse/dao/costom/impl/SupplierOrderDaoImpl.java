@@ -1,25 +1,11 @@
 package lk.ijse.gdse.dao.costom.impl;
 
-import javafx.scene.control.Alert;
-import lk.ijse.gdse.bo.custom.BOFactory;
-import lk.ijse.gdse.bo.custom.PlaceOrderBo;
-import lk.ijse.gdse.bo.custom.StockBo;
-import lk.ijse.gdse.bo.custom.SupplierOrderBo;
-import lk.ijse.gdse.bo.custom.impl.PlaceOrderBoImpl;
-import lk.ijse.gdse.bo.custom.impl.SupplierOrderBoImpl;
-import lk.ijse.gdse.dao.costom.PlaceOrderDao;
-import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.SupplierOrderDao;
-import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.dto.StockDto;
-import lk.ijse.gdse.dto.SupplierOrderDto;
 import lk.ijse.gdse.entity.SupplierOrder;
 import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SupplierOrderDaoImpl implements SupplierOrderDao {
@@ -32,11 +18,7 @@ public class SupplierOrderDaoImpl implements SupplierOrderDao {
         ResultSet rst = CrudUtil.execute("select supOrderId from supplier_order order by supOrderId desc limit 1");
 
         if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(2);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("SO%03d", newIdIndex);
+            return rst.getString(1);
         }
         return "SO001";
     }

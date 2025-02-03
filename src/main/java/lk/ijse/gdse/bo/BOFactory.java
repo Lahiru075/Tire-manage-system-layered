@@ -1,9 +1,6 @@
-package lk.ijse.gdse.bo.custom;
+package lk.ijse.gdse.bo;
 
 import lk.ijse.gdse.bo.custom.impl.*;
-import lk.ijse.gdse.dao.costom.impl.DiscountDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.SupplierDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.UserDaoImpl;
 
 public class BOFactory {
     private static BOFactory boFactory;
@@ -19,7 +16,7 @@ public class BOFactory {
     }
 
     public enum BOType {
-        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER,SUPPLIER_ORDER,PAYMENT,DISCOUNT,CONFIRM_ORDER,ORDER,REPORT,VIEW_ORDER
+        CUSTOMER,USER,SUPPLIER,EMPLOYEE,STOCK,PLACE_ORDER,SUPPLIER_ORDER,PAYMENT,DISCOUNT,CONFIRM_ORDER,ORDER,REPORT,VIEW_ORDER,TIRE_ORDER
     }
 
     public SuperBo getBO(BOType type){
@@ -50,6 +47,8 @@ public class BOFactory {
                 return new ReportBoImpl();
             case VIEW_ORDER:
                 return new ViewOrderBoImpl();
+            case TIRE_ORDER:
+                return new TireOrderBoImpl();
             default:
                 return null;
         }

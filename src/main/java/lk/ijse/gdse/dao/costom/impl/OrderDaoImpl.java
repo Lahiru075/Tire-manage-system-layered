@@ -1,14 +1,9 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.OrderDao;
-import lk.ijse.gdse.dao.costom.TireOrderDao;
-import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.dto.OrdersDto;
-import lk.ijse.gdse.dto.TireOrderDto;
 import lk.ijse.gdse.entity.Orders;
 import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,13 +48,9 @@ public class OrderDaoImpl implements OrderDao {
         ResultSet rst = CrudUtil.execute("select orderId from orders order by orderId desc limit 1");
 
         if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("O%03d", newIdIndex);
+            return rst.getString(1);
         }
-        return "O001";
+        return null;
     }
 
     @Override

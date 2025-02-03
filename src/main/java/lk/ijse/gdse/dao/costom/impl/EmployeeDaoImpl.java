@@ -1,7 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.EmployeeDao;
-import lk.ijse.gdse.dto.EmployeeDto;
 import lk.ijse.gdse.entity.Employee;
 import lk.ijse.gdse.util.CrudUtil;
 
@@ -36,13 +35,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         ResultSet rst = CrudUtil.execute("select empId from employee order by empId desc limit 1");
 
         if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("E%03d", newIdIndex);
+            return rst.getString(1);
         }
-        return "E001";
+        return null;
     }
 
     public ArrayList<Employee> getAll() throws SQLException {

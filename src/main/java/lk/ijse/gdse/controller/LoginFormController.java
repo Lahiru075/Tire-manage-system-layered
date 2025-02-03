@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.BOFactory;
 import lk.ijse.gdse.bo.custom.UserBo;
 import lk.ijse.gdse.dto.UserDto;
 

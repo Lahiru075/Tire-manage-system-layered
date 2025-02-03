@@ -1,7 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.CustomerDao;
-import lk.ijse.gdse.dto.CustomerDto;
 import lk.ijse.gdse.entity.Customer;
 import lk.ijse.gdse.util.CrudUtil;
 
@@ -14,13 +13,9 @@ public class CustomerDaoImpl implements CustomerDao {
         ResultSet rst = CrudUtil.execute("select custId from customer order by custId desc limit 1");
 
         if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("C%03d", newIdIndex);
+            return rst.getString(1);
         }
-        return "C001";
+        return null;
     }
 
     public ArrayList<Customer> getAll() throws SQLException {

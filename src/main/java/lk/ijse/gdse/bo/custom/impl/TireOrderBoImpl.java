@@ -1,13 +1,11 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import lk.ijse.gdse.bo.custom.TireOrderBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.TireOrderDao;
 import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.TireOrderDaoImpl;
 import lk.ijse.gdse.dto.TireOrderDto;
 import lk.ijse.gdse.entity.TireOrder;
-import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

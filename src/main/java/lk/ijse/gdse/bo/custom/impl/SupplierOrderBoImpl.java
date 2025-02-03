@@ -1,13 +1,12 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import javafx.scene.control.Alert;
-import lk.ijse.gdse.bo.custom.*;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.bo.BOFactory;
+import lk.ijse.gdse.bo.custom.StockBo;
+import lk.ijse.gdse.bo.custom.SupplierOrderBo;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
-import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.SupplierOrderDao;
-import lk.ijse.gdse.dao.costom.impl.PlaceOrderDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
 import lk.ijse.gdse.dao.costom.impl.SupplierOrderDaoImpl;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.StockDto;
@@ -16,7 +15,6 @@ import lk.ijse.gdse.entity.SupplierOrder;
 import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -29,7 +27,17 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
     PlaceOrderDao placeOrderDao = (PlaceOrderDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PLACE_ORDER);
 
     public String getNextId() throws SQLException {
-        return supplierOrderDao.getNextId();
+        String lastId = supplierOrderDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(2);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("SO%03d", newIdIndex);
+            return lastId;
+        }
+
+        return "SO001";
     }
 
     public boolean saveOrder(ArrayList<SupplierOrderDto> supplierOrderDtos) throws SQLException {

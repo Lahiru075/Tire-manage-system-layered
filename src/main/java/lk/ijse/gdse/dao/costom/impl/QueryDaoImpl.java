@@ -1,8 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.QueryDao;
-import lk.ijse.gdse.dto.OrderViewDto;
-import lk.ijse.gdse.dto.ReportDto;
 import lk.ijse.gdse.entity.OrderView;
 import lk.ijse.gdse.entity.Report;
 import lk.ijse.gdse.util.CrudUtil;

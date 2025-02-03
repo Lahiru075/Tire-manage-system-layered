@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.BOFactory;
 import lk.ijse.gdse.bo.custom.CustomerBo;
 import lk.ijse.gdse.bo.custom.ViewOrderBo;
 import lk.ijse.gdse.db.DBConnection;

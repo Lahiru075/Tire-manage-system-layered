@@ -1,5 +1,6 @@
 package lk.ijse.gdse.bo.custom;
 
+import lk.ijse.gdse.bo.SuperBo;
 import lk.ijse.gdse.dto.SupplierDto;
 
 import java.sql.SQLException;

@@ -1,14 +1,11 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import lk.ijse.gdse.bo.custom.ViewOrderBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.QueryDao;
-import lk.ijse.gdse.dao.costom.impl.QueryDaoImpl;
 import lk.ijse.gdse.dto.OrderViewDto;
 import lk.ijse.gdse.entity.OrderView;
-import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

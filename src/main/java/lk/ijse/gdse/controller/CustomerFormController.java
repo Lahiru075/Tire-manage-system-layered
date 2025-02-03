@@ -8,9 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.BOFactory;
 import lk.ijse.gdse.bo.custom.CustomerBo;
-import lk.ijse.gdse.bo.custom.impl.CustomerBoImpl;
 import lk.ijse.gdse.dto.CustomerDto;
 import lk.ijse.gdse.dto.Tm.CustomerTm;
 

@@ -13,13 +13,9 @@ public class ConformOrderDaoImpl implements ConformOrderDao {
         ResultSet rst = CrudUtil.execute("select pId from payment order by pId desc limit 1");
 
         if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("P%03d", newIdIndex);
+            return rst.getString(1);
         }
-        return "P001";
+        return null;
     }
 
     @Override

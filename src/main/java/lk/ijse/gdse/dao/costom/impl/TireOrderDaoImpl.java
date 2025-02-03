@@ -1,9 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
-import lk.ijse.gdse.bo.custom.StockBo;
-import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.TireOrderDao;
-import lk.ijse.gdse.dto.TireOrderDto;
 import lk.ijse.gdse.entity.TireOrder;
 import lk.ijse.gdse.util.CrudUtil;
 

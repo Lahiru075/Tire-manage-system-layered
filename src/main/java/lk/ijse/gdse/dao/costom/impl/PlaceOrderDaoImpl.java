@@ -1,7 +1,6 @@
 package lk.ijse.gdse.dao.costom.impl;
 
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
-import lk.ijse.gdse.dto.PlaceOrderDto;
 import lk.ijse.gdse.entity.PlaceOrder;
 import lk.ijse.gdse.util.CrudUtil;
 
@@ -14,13 +13,9 @@ public class PlaceOrderDaoImpl implements PlaceOrderDao {
         ResultSet rst = CrudUtil.execute("select tireId from tire order by tireId desc limit 1");
 
         if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("T%03d", newIdIndex);
+            return rst.getString(1);
         }
-        return "T001";
+        return null;
     }
 
     public ArrayList<PlaceOrder> getAll() throws SQLException {

@@ -1,11 +1,12 @@
 package lk.ijse.gdse.bo.custom;
 
+import lk.ijse.gdse.bo.SuperBo;
 import lk.ijse.gdse.dto.CustomerDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface CustomerBo extends SuperBo{
+public interface CustomerBo extends SuperBo {
     String getNextId() throws SQLException;
     ArrayList<CustomerDto> getAll() throws SQLException;
     boolean save(CustomerDto customerDto) throws SQLException;

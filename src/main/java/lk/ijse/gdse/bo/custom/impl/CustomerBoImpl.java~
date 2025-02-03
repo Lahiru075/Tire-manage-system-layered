@@ -21,7 +21,7 @@ public class CustomerBoImpl implements CustomerBo {
             String substring = lastId.substring(1);
             int i = Integer.parseInt(substring);
             int newIdIndex = i + 1;
-            lastId = String.format("C%03d", newIdIndex);
+            lastId = String.format("P%03d", newIdIndex);
             return lastId;
         }
 

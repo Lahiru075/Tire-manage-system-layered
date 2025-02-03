@@ -1,7 +1,6 @@
 package lk.ijse.gdse.dao.costom;
 
-import lk.ijse.gdse.dto.OrderViewDto;
-import lk.ijse.gdse.dto.ReportDto;
+import lk.ijse.gdse.dao.SuperDao;
 import lk.ijse.gdse.entity.OrderView;
 import lk.ijse.gdse.entity.Report;
 

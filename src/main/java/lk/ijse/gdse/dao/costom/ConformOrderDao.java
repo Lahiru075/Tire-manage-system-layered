@@ -1,8 +1,6 @@
 package lk.ijse.gdse.dao.costom;
 
-import lk.ijse.gdse.dto.OrdersDto;
+import lk.ijse.gdse.dao.CrudDao;
 
-import java.sql.SQLException;
-
-public interface ConformOrderDao extends CrudDao<Object>{
+public interface ConformOrderDao extends CrudDao<Object> {
 }

@@ -1,13 +1,11 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import lk.ijse.gdse.bo.custom.EmployeeBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.EmployeeDao;
-import lk.ijse.gdse.dao.costom.impl.EmployeeDaoImpl;
 import lk.ijse.gdse.dto.EmployeeDto;
 import lk.ijse.gdse.entity.Employee;
-import lk.ijse.gdse.util.CrudUtil;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -24,7 +22,17 @@ public class EmployeeBoImpl implements EmployeeBo {
     }
 
     public String getNextId() throws SQLException {
-        return employeeDao.getNextId();
+        String lastId = employeeDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("E%03d", newIdIndex);
+            return lastId;
+        }
+
+        return "E001";
     }
 
     public ArrayList<EmployeeDto> getAll() throws SQLException {

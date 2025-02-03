@@ -8,9 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.gdse.bo.custom.BOFactory;
+import lk.ijse.gdse.bo.BOFactory;
 import lk.ijse.gdse.bo.custom.UserBo;
-import lk.ijse.gdse.bo.custom.impl.UserBoImpl;
 import lk.ijse.gdse.dao.costom.UserDao;
 import lk.ijse.gdse.dto.Tm.UserTm;
 import lk.ijse.gdse.dto.UserDto;
@@ -183,8 +182,7 @@ public class UserFormController implements Initializable {
     }
 
     void getNextUserId() throws SQLException {
-        UserDao userDao = new UserDaoImpl();
-        String userId = userDao.getNextId();
+        String userId = userBo.getNextId();
         labUserId.setText(userId);
     }
 

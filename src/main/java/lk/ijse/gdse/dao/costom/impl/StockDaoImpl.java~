@@ -60,9 +60,13 @@ public class StockDaoImpl implements StockDao {
         ResultSet rst = CrudUtil.execute("select stockId from stock order by stockId desc limit 1");
 
         if (rst.next()) {
-            return rst.getString(1);
+            String lastId = rst.getString(1);
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            return String.format("S%03d", newIdIndex);
         }
-        return null;
+        return "S001";
     }
 
     public boolean reduceQty(TireOrderDto tireOrderDto) throws SQLException {

@@ -1,27 +1,23 @@
 package lk.ijse.gdse.bo.custom.impl;
 
+import lk.ijse.gdse.bo.BOFactory;
 import lk.ijse.gdse.bo.custom.OrderBo;
 import lk.ijse.gdse.bo.custom.TireOrderBo;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.OrderDao;
-import lk.ijse.gdse.dao.costom.TireOrderDao;
-import lk.ijse.gdse.dao.costom.impl.OrderDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.TireOrderDaoImpl;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.OrdersDto;
 import lk.ijse.gdse.dto.TireOrderDto;
 import lk.ijse.gdse.entity.Orders;
-import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderBoImpl implements OrderBo {
 
     OrderDao orderDao = (OrderDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER);
-    TireOrderBo tireOrderBo = new TireOrderBoImpl();
+    TireOrderBo tireOrderBo = (TireOrderBo) BOFactory.getInstance().getBO(BOFactory.BOType.TIRE_ORDER);
 
     public boolean saveOrder(OrdersDto ordersDto, ArrayList<TireOrderDto> tireOrderDtos) throws SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
@@ -62,6 +58,16 @@ public class OrderBoImpl implements OrderBo {
     }
 
     public String getNextId() throws SQLException {
-        return orderDao.getNextId();
+        String lastId = orderDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("O%03d", newIdIndex);
+            return lastId;
+        }
+
+        return "O001";
     }
 }

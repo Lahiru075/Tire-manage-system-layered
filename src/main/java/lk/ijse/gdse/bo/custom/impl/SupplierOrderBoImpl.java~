@@ -1,13 +1,12 @@
 package lk.ijse.gdse.bo.custom.impl;
 
 import javafx.scene.control.Alert;
-import lk.ijse.gdse.bo.custom.*;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.bo.BOFactory;
+import lk.ijse.gdse.bo.custom.StockBo;
+import lk.ijse.gdse.bo.custom.SupplierOrderBo;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.PlaceOrderDao;
-import lk.ijse.gdse.dao.costom.StockDao;
 import lk.ijse.gdse.dao.costom.SupplierOrderDao;
-import lk.ijse.gdse.dao.costom.impl.PlaceOrderDaoImpl;
-import lk.ijse.gdse.dao.costom.impl.StockDaoImpl;
 import lk.ijse.gdse.dao.costom.impl.SupplierOrderDaoImpl;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.dto.StockDto;
@@ -16,7 +15,6 @@ import lk.ijse.gdse.entity.SupplierOrder;
 import lk.ijse.gdse.util.CrudUtil;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -29,7 +27,17 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
     PlaceOrderDao placeOrderDao = (PlaceOrderDao) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PLACE_ORDER);
 
     public String getNextId() throws SQLException {
-        return supplierOrderDao.getNextId();
+        String lastId = supplierOrderDao.getNextId();
+
+        if (lastId != null){
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            lastId = String.format("SO%03d", newIdIndex);
+            return lastId;
+        }
+
+        return "SO001";
     }
 
     public boolean saveOrder(ArrayList<SupplierOrderDto> supplierOrderDtos) throws SQLException {
@@ -113,25 +121,25 @@ public class SupplierOrderBoImpl implements SupplierOrderBo {
 
         return supplierOrderDao.update(new SupplierOrder(
                 supplierOrderDto.getOrderId(),
+                supplierOrderDto.getStockId(),
                 supplierOrderDto.getSupId(),
                 supplierOrderDto.getEmployeeId(),
-                supplierOrderDto.getTireModel(),
-                supplierOrderDto.getQty(),
                 supplierOrderDto.getOrderDate(),
-                supplierOrderDto.getRequestDate(),
-                supplierOrderDto.getTotal(),
-                supplierOrderDto.getTireBrand(),
                 supplierOrderDto.getYear(),
-                supplierOrderDto.getOrderSize(),
+                supplierOrderDto.getRequestDate(),
+                supplierOrderDto.getTireModel(),
+                supplierOrderDto.getTireBrand(),
                 supplierOrderDto.getOrderStatus(),
-                
-                supplierOrderDto.getStockId()
-        ));
+                supplierOrderDto.getOrderSize(),
+                supplierOrderDto.getTotal(),
+                supplierOrderDto.getQty()
 
+        ));
     }
 
     public boolean deleteSupplierOrder(String orderId, String stockId) throws SQLException {
-        return CrudUtil.execute("delete from supplier_order where supOrderId = ? and stockId = ?", orderId, stockId);
+//        return CrudUtil.execute("delete from supplier_order where supOrderId = ? and stockId = ?", orderId, stockId);
+        return supplierOrderDao.deleteSupplierOrder(orderId,stockId);
     }
 
     public boolean addSupplierOrder(SupplierOrderDto supplierOrderDto) throws SQLException {

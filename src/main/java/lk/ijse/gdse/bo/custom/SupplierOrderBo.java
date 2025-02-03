@@ -1,17 +1,9 @@
 package lk.ijse.gdse.bo.custom;
 
-import javafx.scene.control.Alert;
-import lk.ijse.gdse.dao.costom.PlaceOrderDao;
-import lk.ijse.gdse.dao.costom.impl.PlaceOrderDaoImpl;
-import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.dto.StockDto;
+import lk.ijse.gdse.bo.SuperBo;
 import lk.ijse.gdse.dto.SupplierOrderDto;
-import lk.ijse.gdse.util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface SupplierOrderBo extends SuperBo {

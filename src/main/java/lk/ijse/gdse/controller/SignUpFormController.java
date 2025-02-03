@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.gdse.dao.costom.DAOFactory;
+import lk.ijse.gdse.dao.DAOFactory;
 import lk.ijse.gdse.dao.costom.UserDao;
 import lk.ijse.gdse.dto.UserDto;
 import lk.ijse.gdse.dao.costom.impl.UserDaoImpl;

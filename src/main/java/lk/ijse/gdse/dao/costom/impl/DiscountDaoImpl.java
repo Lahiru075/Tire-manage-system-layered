@@ -13,14 +13,11 @@ public class DiscountDaoImpl implements DiscountDao {
     public String getNextId() throws SQLException {
         ResultSet rst = CrudUtil.execute("select descId from discount order by descId desc limit 1");
 
-        if (rst.next()){
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("D%03d", newIdIndex);
+        if (rst.next()) {
+            return rst.getString(1);
         }
-        return "D001";
+
+        return null;
     }
 
     @Override
