@@ -56,20 +56,21 @@ public class UserDaoImpl implements UserDao {
         return CrudUtil.execute("delete from user where usId = ?", userId);
     }
 
-    public User checkUser(String username, String password) throws SQLException {
+    public ArrayList<User> checkUser() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from user");
 
-        User user = new User();
+        ArrayList<User> users = new ArrayList<>();
 
-        while (rst.next()){
-            if(rst.getString("password").equals(password) && rst.getString("username").equals(username)){
-                user.setUsId(rst.getString(1));
-                user.setRole(rst.getString(2));
-                user.setPassword(rst.getString(3));
-                user.setUsername(rst.getString(4));
-            }
+        while (rst.next()) {
+            User user = new User(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4)
+            );
+            users.add(user);
         }
-        return user;
+        return users;
 
     }
 }

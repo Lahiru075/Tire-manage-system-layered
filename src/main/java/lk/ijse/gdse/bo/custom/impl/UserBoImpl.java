@@ -55,8 +55,14 @@ public class UserBoImpl implements UserBo {
     }
 
     public UserDto checkUser(String username, String password) throws SQLException {
-        User user = userDao.checkUser(username,password);
+        ArrayList<User> users = userDao.checkUser();
 
-        return new UserDto(user.getUsId(),user.getRole(),user.getPassword(),user.getUsername());
+        for (User user : users){
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)){
+                return new UserDto(user.getUsId(), user.getRole(), user.getPassword(), user.getUsername());
+            }
+        }
+        return null;
+
     }
 }
