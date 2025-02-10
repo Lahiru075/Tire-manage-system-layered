@@ -51,7 +51,7 @@ public class LoginFormController {
         } else {
             try {
                 UserDto userDto = userBo.checkUser(username, password);
-                if (userDto.getRole() != null) {
+                if (userDto != null) {
                     Stage currentStage = (Stage) mainAnchorPane.getScene().getWindow();
                     currentStage.close();
 
